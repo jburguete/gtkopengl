@@ -1,0 +1,34 @@
+.PHONY: strip clean
+
+FLAGS = -march=native -Os -Wall -Wextra
+CFLAGS1 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ @GTK_CFLAGS@ $(FLAGS)
+LDFLAGS1 = -lglut @GTK_LIBS@ @GLEW_LIBS@ @GLIB_LIBS@
+CFLAGS2 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ @GTK_CFLAGS@ @GLFW_CFLAGS@ $(FLAGS)
+LDFLAGS2 = @GLFW_LIBS@ @GTK_LIBS@ @GLEW_LIBS@ @GLIB_LIBS@
+CFLAGS3 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ @GTK_CFLAGS@ @SDL_CFLAGS@ $(FLAGS)
+LDFLAGS3 = @SDL_LIBS@ @GTK_LIBS@ @GLEW_LIBS@ @GLIB_LIBS@
+CFLAGS4 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ @GTK_CFLAGS@ $(FLAGS)
+LDFLAGS4 = @GTK_LIBS@ @GLEW_LIBS@ @GLIB_LIBS@
+CC = gcc -g -flto
+ALL = gtk-freeglut gtk-glfw gtk-sdl gtk-glarea
+
+all: $(ALL)
+
+gtk-freeglut: gtk-freeglut.c Makefile
+	$(CC) $(CFLAGS1) gtk-freeglut.c -o gtk-freeglut $(LDFLAGS1)
+
+gtk-glfw: gtk-glfw.c Makefile
+	$(CC) $(CFLAGS2) gtk-glfw.c -o gtk-glfw $(LDFLAGS2)
+
+gtk-sdl: gtk-sdl.c Makefile
+	$(CC) $(CFLAGS3) gtk-sdl.c -o gtk-sdl $(LDFLAGS3)
+
+gtk-glarea: gtk-glarea.c Makefile
+	$(CC) $(CFLAGS4) gtk-glarea.c -o gtk-glarea $(LDFLAGS4)
+
+strip:
+	make
+	strip $(ALL)
+
+clean:
+	rm $(ALL)
