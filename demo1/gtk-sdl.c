@@ -212,6 +212,7 @@ sdl_init ()
       printf ("%s: %s\n", "Unable to create SDL window", SDL_GetError ());
       return 0;
     }
+  SDL_SetWindowSize (sdl_window, width, height);
   SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   sdl_context = SDL_GL_CreateContext(sdl_window);
   if (!sdl_context)

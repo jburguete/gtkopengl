@@ -274,6 +274,11 @@ image_destroy (Image * image)   ///< Image struct.
   fflush (stdout);
 #endif
 
+  glDeleteBuffers (1, &image->ibo);
+  glDeleteBuffers (1, &image->vbo);
+  glDeleteBuffers (1, &image->vbo_texture);
+  glDeleteTextures (1, &image->id_texture);
+  glDeleteProgram (image->program_texture); 
   g_slice_free1 (image->size, image->image);
 
 #if DEBUG

@@ -7,6 +7,7 @@
 
 #include "image.h"
 #include "text.h"
+#include "draw.h"
 
 #define NFRAGMENT_V3 4
 const char *fragment_shader_source_v3[NFRAGMENT_V3] = {
@@ -76,8 +77,8 @@ GLuint vertex2_buffer;
 Image *logo;                      ///< Logo data.
 Text text[1];                     ///< Text data.
 
-unsigned int window_width = 480;        ///< Graphic window width.
-unsigned int window_height = 480;       ///< Graphic window height.
+unsigned int window_width = MINIMUM_WIDTH;      ///< Graphic window width.
+unsigned int window_height = MINIMUM_HEIGHT;    ///< Graphic window height.
 
 unsigned int
 draw_init ()
@@ -86,6 +87,28 @@ draw_init ()
   const char *error_message;
   GLint result;
   GLuint nfragment, nvertex;
+  GLenum glew_status;
+
+  // Initing GLEW library
+  glew_status = glewInit ();
+  if (glew_status != GLEW_OK)
+    {
+      error_message = (const char *) glewGetErrorString (glew_status);
+      goto exit_on_error;
+    }
+  if (!glewIsSupported ("GL_VERSION_3_0"))
+    {
+      error_message = "OpenGL 3.0 is not supported";
+      goto exit_on_error;
+    }
+
+  // Opening logo
+  logo = image_new ("logo.png");
+  if (!logo)
+    {
+      error_message = "Unable to open the logo";
+      goto exit_on_error;
+    }
 
   // Select shaders
   if (GLEW_VERSION_3_0)
@@ -232,3 +255,15 @@ draw_render ()
 	text_draw (text, "Prueba", 0.6, -0.9, 0.01, 0.01, blew);
   glDisable (GL_BLEND);
 }
+
+// Free draw
+void
+draw_free ()
+{
+  text_destroy (text);
+  image_destroy (logo);
+  glDeleteBuffers (1, &vertex1_buffer);
+  glDeleteBuffers (1, &vertex2_buffer);
+  glDeleteProgram (program_id);
+}
+

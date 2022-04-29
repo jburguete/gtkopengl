@@ -240,14 +240,14 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_show_all (GTK_WIDGET (gtk_window));
 #endif
-  g_signal_connect_swapped (gtk_window, "destroy",
-                            (GCallback) glfwDestroyWindow, glfw_window);
 
   // Render window
   if (!glfw_init ())
     return 4;
   if (!draw_init ())
     return 3;
+  g_signal_connect_swapped (gtk_window, "destroy",
+                            (GCallback) glfwDestroyWindow, glfw_window);
   glfw_loop ();
   glfw_free ();
   return 0;

@@ -133,6 +133,8 @@ text_destroy (Text * text)      ///< Text struct data.
   fflush (stdout);
 #endif
 
+  glDeleteBuffers (1, &text->vbo);
+  glDeleteProgram (text->program);
   FT_Done_Face (text->face);
   FT_Done_Library (text->ft);
 
