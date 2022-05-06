@@ -1,3 +1,4 @@
+*demo0: sometimes resizing with too low sizes is enabled with SDL
 *demo1,demo2: resizing very slow with GLFW
 *demo1: buggy with SDL
 *demo2: no rendering with GtkGLArea

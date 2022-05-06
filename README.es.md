@@ -11,6 +11,17 @@ AUTORES
 * Javier Burguete Tolosa
   [jburguete@eead.csic.es](mailto:jburguete@eead.csic.es).
 
+DEMOS
+-----
+
+* demo0: dibuja un triángulo en una ventana FreeGLUT/GLFW/SDL/GtkWindow.
+
+* demo1: dibuja un triángulo en una ventana FreeGLUT/GLFW/SDL/GtkWindow y una
+  ventana GtkWindow para cerrar.
+
+* demo2: dibuja dos triángulos, un fichero PNG transparente y un texto en una
+  ventana FreeGLUT/GLFW/SDL/GtkWindow y una ventana GtkWindow para cerrar.
+
 CONSTRUIR LOS EJECUTABLES
 -------------------------
 
@@ -108,14 +119,14 @@ _____________________
 EXECUTE THE DEMO
 ----------------
 
-1. For OpenGL in FreeGLUT
+1. Pana OpenGL en FreeGLUT
 > $ ./gtk-freeglut
 
-2. For OpenGL in GLFW
+2. Para OpenGL en GLFW
 > $ ./gtk-glfw
 
-3. For OpenGL in SDL
+3. Para OpenGL en SDL
 > $ ./gtk-sdl
 
-4. For OpenGL in a GtkGLArea widget in GTK
+4. Para OpenGL en un widget GtkGLArea en GTK
 > $ ./gtk-glarea

@@ -11,6 +11,17 @@ AUTHORS
 * Javier Burguete Tolosa
   [jburguete@eead.csic.es](mailto:jburguete@eead.csic.es).
 
+DEMOS
+-----
+
+* demo0: Draw one triangle in a FreeGLUT/GLFW/SDL/GtkWindow window.
+
+* demo1: Draw one triangle in a FreeGLUT/GLFW/SDL/GtkWindow window and a
+  GtkWindow to close.
+
+* demo2: Draw two triangles, a transparent PNG file and a text in a
+  FreeGLUT/GLFW/SDL/GtkWindow window and a GtkWindow to close.
+
 BUILDING THE EXECUTABLES
 ------------------------
 
