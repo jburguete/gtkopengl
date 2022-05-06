@@ -13,6 +13,7 @@
 
 // Windows
 GtkWindow *gtk_window;
+GdkGLContext *gl_context;
 GLFWwindow *glfw_window = NULL;
 
 // GLFW render function
@@ -65,6 +66,7 @@ glfw_loop ()
   GMainContext *context = g_main_context_default ();
   do
     {
+      gdk_gl_context_make_current (gl_context);
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
       glfwMakeContextCurrent (glfw_window);
@@ -83,7 +85,7 @@ glfw_free ()
 
 // Main function
 int
-main (int argn, char **argc)
+main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 {
   // GTK main window
 #if GTK_MAJOR_VERSION > 3
@@ -95,6 +97,7 @@ main (int argn, char **argc)
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_show_all (GTK_WIDGET (gtk_window));
 #endif
+  gl_context = gdk_gl_context_get_current ();
 
   // Render window
   if (!glfw_init ())

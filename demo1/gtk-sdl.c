@@ -13,6 +13,7 @@ int height = MINIMUM_HEIGHT;
 // OpenGL variables
 const GLfloat vertex_data[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.f, 0.5f };
 const GLfloat green[] = { 0.f, 1.f, 0.f, };
+
 GLuint program;
 GLint in_position;
 GLint uniform_color;
@@ -21,6 +22,7 @@ GLuint vertex_buffer;
 
 // Windows
 GtkWindow *gtk_window;
+GdkGLContext *gl_context;
 SDL_Window *sdl_window = NULL;
 SDL_GLContext sdl_context = NULL;
 
@@ -29,18 +31,11 @@ static int
 draw_init ()
 {
   const GLchar *gl_version = "#version 130\n";
-   const GLchar *fs_source =
-    "uniform vec3 color;"
-    "void main()"
-    "{"
-    "gl_FragColor=vec4(color,1.f);"
-    "}";
+  const GLchar *fs_source =
+    "uniform vec3 color;" "void main()" "{" "gl_FragColor=vec4(color,1.f);" "}";
   const GLchar *vs_source =
     "in vec2 position;"
-    "void main()"
-    "{"
-    "gl_Position=vec4(position,0.f,1.f);"
-    "}";
+    "void main()" "{" "gl_Position=vec4(position,0.f,1.f);" "}";
   const GLchar *position_name = "position";
   const GLchar *color_name = "color";
   const GLchar *fs_sources[2] = { gl_version, fs_source };
@@ -99,7 +94,6 @@ draw_init ()
   if (!error_code)
     {
       program = 0;
-      glDeleteShader (fs);
       error_msg = "unable to link the program";
       goto end;
     }
@@ -213,13 +207,14 @@ sdl_init ()
       return 0;
     }
   SDL_SetWindowSize (sdl_window, width, height);
-  SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  sdl_context = SDL_GL_CreateContext(sdl_window);
+  sdl_context = SDL_GL_CreateContext (sdl_window);
   if (!sdl_context)
     {
       printf ("%s: %s\n", "Unable to create SDL context", SDL_GetError ());
       return 0;
     }
+  SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetSwapInterval (1);
   return 1;
 }
 
@@ -232,8 +227,10 @@ sdl_loop ()
   sdl_render ();
   while (1)
     {
+      gdk_gl_context_make_current (gl_context);
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
+      SDL_GL_MakeCurrent (sdl_window, sdl_context);
       while (SDL_PollEvent (event))
         {
           switch (event->type)
@@ -241,17 +238,14 @@ sdl_loop ()
             case SDL_QUIT:
               return;
             case SDL_WINDOWEVENT:
-              SDL_GL_MakeCurrent (sdl_window, sdl_context);
               switch (event->window.event)
                 {
                 case SDL_WINDOWEVENT_RESIZED:
                 case SDL_WINDOWEVENT_SIZE_CHANGED:
                   sdl_resize (event->window.data1, event->window.data2);
-                  // fallthrough
-                default: 
-                  sdl_render ();
                 }
             }
+          sdl_render ();
         }
     }
 }
@@ -288,6 +282,7 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_show_all (GTK_WIDGET (gtk_window));
 #endif
+  gl_context = gdk_gl_context_get_current ();
   g_signal_connect (gtk_window, "destroy", sdl_loop_quit, NULL);
 
   // Render window

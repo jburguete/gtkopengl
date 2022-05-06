@@ -14,6 +14,8 @@
 
 // Windows
 GtkWindow *gtk_window;
+GdkGLContext *gl_context;
+int glut_window;
 
 // Init FreeGLUT
 static void
@@ -22,7 +24,7 @@ freeglut_init (int *argn, char **argc)
   glutInit (argn, argc);
   glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
   glutInitWindowSize (window_width, window_height);
-  glutCreateWindow ("FreeGLUT");
+  glut_window = glutCreateWindow ("FreeGLUT");
   glViewport (0, 0, window_width, window_height);
 }
 
@@ -31,8 +33,10 @@ static void
 freeglut_idle ()
 {
   GMainContext *context = g_main_context_default ();
+  gdk_gl_context_make_current (gl_context);
   while (g_main_context_pending (context))
     g_main_context_iteration (context, 0);
+  glutSetWindow (glut_window);
 }
 
 // FreeGLUT resize function
@@ -65,7 +69,7 @@ freeglut_loop ()
 
 // Main function
 int
-main (int argn, char **argc)
+main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 {
   // GTK main window
 #if GTK_MAJOR_VERSION > 3
@@ -77,6 +81,7 @@ main (int argn, char **argc)
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_show_all (GTK_WIDGET (gtk_window));
 #endif
+  gl_context = gdk_gl_context_get_current ();
   g_signal_connect (gtk_window, "destroy", glutLeaveMainLoop, NULL);
 
   // Render window

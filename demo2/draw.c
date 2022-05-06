@@ -74,8 +74,8 @@ GLuint vertex2_array_id;
 GLuint vertex1_buffer;
 GLuint vertex2_buffer;
 
-Image *logo;                      ///< Logo data.
-Text text[1];                     ///< Text data.
+Image *logo;                    ///< Logo data.
+Text text[1];                   ///< Text data.
 
 unsigned int window_width = MINIMUM_WIDTH;      ///< Graphic window width.
 unsigned int window_height = MINIMUM_HEIGHT;    ///< Graphic window height.
@@ -131,8 +131,7 @@ draw_init ()
 
   // Fragment shacer
   fragment_shader_id = glCreateShader (GL_FRAGMENT_SHADER);
-  glShaderSource (fragment_shader_id, nfragment, fragment_shader_source,
-                  NULL);
+  glShaderSource (fragment_shader_id, nfragment, fragment_shader_source, NULL);
   glCompileShader (fragment_shader_id);
   glGetShaderiv (fragment_shader_id, GL_COMPILE_STATUS, &result);
   if (!result)
@@ -197,16 +196,16 @@ draw_init ()
   glBindBuffer (GL_ARRAY_BUFFER, vertex2_buffer);
   glBufferData (GL_ARRAY_BUFFER, sizeof (vertex2_data), vertex2_data,
                 GL_STATIC_DRAW);
-  
+
   // init logo
-	if (!image_init (logo))
+  if (!image_init (logo))
     {
       error_message = "Unable to init the logo";
       goto exit_on_error;
     }
 
   // init text
-	if (!text_init (text))
+  if (!text_init (text))
     {
       error_message = "Unable to init the text drawing";
       goto exit_on_error;
@@ -250,9 +249,9 @@ draw_render ()
   glEnable (GL_BLEND);
   glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   // Draw the logo
-	image_draw (logo, window_width, window_height);
-	// Draw the text
-	text_draw (text, "Prueba", 0.6, -0.9, 0.01, 0.01, blew);
+  image_draw (logo, window_width, window_height);
+  // Draw the text
+  text_draw (text, "Prueba", 0.6, -0.1, 0.01, 0.01, blew);
   glDisable (GL_BLEND);
 }
 
@@ -266,4 +265,3 @@ draw_free ()
   glDeleteBuffers (1, &vertex2_buffer);
   glDeleteProgram (program_id);
 }
-

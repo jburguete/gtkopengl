@@ -68,7 +68,7 @@ sdl_init ()
     }
   SDL_SetWindowSize (sdl_window, window_width, window_height);
   SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  sdl_context = SDL_GL_CreateContext(sdl_window);
+  sdl_context = SDL_GL_CreateContext (sdl_window);
   if (!sdl_context)
     {
       printf ("%s: %s\n", "Unable to create SDL context", SDL_GetError ());
@@ -102,7 +102,7 @@ sdl_loop ()
                 case SDL_WINDOWEVENT_SIZE_CHANGED:
                   sdl_resize (event->window.data1, event->window.data2);
                   // fallthrough
-                default: 
+                default:
                   sdl_render ();
                 }
             }
@@ -130,7 +130,7 @@ sdl_loop_quit ()
 
 // Main function
 int
-main (int argn, char **argc)
+main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 {
   // GTK main window
 #if GTK_MAJOR_VERSION > 3

@@ -12,6 +12,7 @@ int height = MINIMUM_HEIGHT;
 // OpenGL variables
 const GLfloat vertex_data[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.f, 0.5f };
 const GLfloat green[] = { 0.f, 1.f, 0.f, };
+
 GLuint program;
 GLint in_position;
 GLint uniform_color;
@@ -27,18 +28,11 @@ static int
 draw_init ()
 {
   const GLchar *gl_version = "#version 130\n";
-   const GLchar *fs_source =
-    "uniform vec3 color;"
-    "void main()"
-    "{"
-    "gl_FragColor=vec4(color,1.f);"
-    "}";
+  const GLchar *fs_source =
+    "uniform vec3 color;" "void main()" "{" "gl_FragColor=vec4(color,1.f);" "}";
   const GLchar *vs_source =
     "in vec2 position;"
-    "void main()"
-    "{"
-    "gl_Position=vec4(position,0.f,1.f);"
-    "}";
+    "void main()" "{" "gl_Position=vec4(position,0.f,1.f);" "}";
   const GLchar *position_name = "position";
   const GLchar *color_name = "color";
   const GLchar *fs_sources[2] = { gl_version, fs_source };
@@ -97,7 +91,6 @@ draw_init ()
   if (!error_code)
     {
       program = 0;
-      glDeleteShader (fs);
       error_msg = "unable to link the program";
       goto end;
     }
@@ -162,12 +155,12 @@ draw_free ()
 
 // GTK resize
 static void
-glarea_resize (GtkGLArea * widget __attribute__((unused)), int w, int h)
+glarea_resize (GtkGLArea * widget, int w, int h)
 {
   width = w;
   height = h;
   glViewport (0, 0, width, height);
-  draw_render ();
+  gtk_widget_queue_draw (GTK_WIDGET (widget));
 }
 
 // GTK realize

@@ -24,23 +24,17 @@ text_init (Text * text)         ///< Text struct data.
     "uniform vec4 color;"
     "out vec2 textcoord;"
     "void main ()"
-    "{"
-    "gl_FragColor=vec4(1.f,1.f,1.f,texture2D(text, textcoord).a)*color;"
-    "}";
+    "{" "gl_FragColor=vec4(1.f,1.f,1.f,texture2D(text,textcoord).a)*color;" "}";
   const char *vs_source =
     "in vec4 position;"
     "out vec2 textcoord;"
     "void main ()"
-    "{"
-    "gl_Position=vec4(position.xy,0.f,1.f);"
-    "textcoord=position.zw;"
-    "}";
+    "{" "gl_Position=vec4(position.xy,0.f,1.f);" "textcoord=position.zw;" "}";
   const char *vertex_name = "position";
   const char *color_name = "color";
   const char *text_name = "text";
   // GLSL version
-  const char *version =
-    "#version 120\n#define in attribute\n#define out varying\n"; // OpenGL 2.1
+  const char *version = "#version 120\n#define in attribute\n#define out varying\n";    // OpenGL 2.1
   const char *fs_sources[2] = { version, fs_source };
   const char *vs_sources[2] = { version, vs_source };
   const char *error_message;
@@ -53,7 +47,7 @@ text_init (Text * text)         ///< Text struct data.
   glGetShaderiv (fs, GL_COMPILE_STATUS, &k);
   if (!k)
     {
-      error_message = "unable to compile the 2D text fragment shader";
+      error_message = "unable to compile the text fragment shader";
       goto exit_on_error;
     }
 
@@ -63,7 +57,7 @@ text_init (Text * text)         ///< Text struct data.
   glGetShaderiv (vs, GL_COMPILE_STATUS, &k);
   if (!k)
     {
-      error_message = "unable to compile the 2D text vertex shader";
+      error_message = "unable to compile the text vertex shader";
       goto exit_on_error;
     }
 
@@ -78,14 +72,14 @@ text_init (Text * text)         ///< Text struct data.
   glGetProgramiv (text->program, GL_LINK_STATUS, &k);
   if (!k)
     {
-      error_message = "unable to link the program 2D text";
+      error_message = "unable to link the program text";
       goto exit_on_error;
     }
 
   text->attribute_position = glGetAttribLocation (text->program, vertex_name);
   if (text->attribute_position == -1)
     {
-      error_message = "could not bind attribute";
+      error_message = "could not bind position attribute";
       goto exit_on_error;
     }
   text->uniform_text = glGetUniformLocation (text->program, text_name);
@@ -112,6 +106,7 @@ text_init (Text * text)         ///< Text struct data.
       error_message = "could not open font";
       goto exit_on_error;
     }
+  FT_Select_Charmap (text->face, ft_encoding_unicode);
   FT_Set_Pixel_Sizes (text->face, 0, 12);
 
   glGenBuffers (1, &text->vbo);
@@ -159,12 +154,23 @@ text_draw (Text * text,         ///< Text struct data.
   float box[16];
   FT_Face face;
   float x2, y2, w, h;
+  FT_UInt glyph;
   GLuint id;
+  gunichar c;
 
 #if DEBUG
   printf ("text_draw: start\n");
   fflush (stdout);
 #endif
+
+  box[2] = 0.f;
+  box[3] = 0.f;
+  box[6] = 1.f;
+  box[7] = 0.f;
+  box[10] = 0.f;
+  box[11] = 1.f;
+  box[14] = 1.f;
+  box[15] = 1.f;
 
   glUseProgram (text->program);
   glGenTextures (1, &id);
@@ -182,7 +188,9 @@ text_draw (Text * text,         ///< Text struct data.
   face = text->face;
   for (; *string; ++string)
     {
-      if (FT_Load_Char (face, *string, FT_LOAD_RENDER))
+      c = g_utf8_get_char (string);
+      glyph = FT_Get_Char_Index (face, c);
+      if (FT_Load_Glyph (face, glyph, FT_LOAD_RENDER))
         continue;
       glTexImage2D (GL_TEXTURE_2D,
                     0,
@@ -196,26 +204,19 @@ text_draw (Text * text,         ///< Text struct data.
       h = face->glyph->bitmap.rows * sy;
       box[0] = x2;
       box[1] = -y2;
-      box[2] = 0.;
-      box[3] = 0.;
       box[4] = x2 + w;
       box[5] = -y2;
-      box[6] = 1.;
-      box[7] = 0.;
       box[8] = x2;
       box[9] = -y2 - h;
-      box[10] = 0.;
-      box[11] = 1.;
       box[12] = x2 + w;
       box[13] = -y2 - h;
-      box[14] = 1.;
-      box[15] = 1.;
       glBufferData (GL_ARRAY_BUFFER, sizeof (box), box, GL_DYNAMIC_DRAW);
       glDrawArrays (GL_TRIANGLE_STRIP, 0, 4);
       x += (face->glyph->advance.x >> 6) * sx;
       y += (face->glyph->advance.y >> 6) * sy;
     }
   glDisableVertexAttribArray (text->attribute_position);
+  glDeleteTextures (1, &id);
 
 #if DEBUG
   printf ("text_draw: end\n");

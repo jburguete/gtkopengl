@@ -1,6 +1,6 @@
 .PHONY: strip clean
 
-FLAGS = -march=native -Os -Wall -Wextra -DFONT=\"`find /usr -iname freesans.*`\"
+FLAGS = -march=native -Os -Wall -Wextra @FONT@
 CFLAGS1 = @PNG_CFLAGS@ @FREETYPE_CFLAGS@ @GLIB_CFLAGS@ @GLEW_CFLAGS@ \
 	@GTK_CFLAGS@ $(FLAGS)
 LDFLAGS1 = -lglut @GTK_LIBS@ @GLEW_LIBS@ @FREETYPE_LIBS@ @PNG_LIBS@ @GLIB_LIBS@
@@ -23,6 +23,7 @@ ALL = gtk-freeglut gtk-glfw gtk-sdl gtk-glarea
 all: $(ALL)
 
 gtk-freeglut: gtk-freeglut.c $(SRC) $(HDR) Makefile
+	echo $(FONT)
 	$(CC) $(CFLAGS1) gtk-freeglut.c $(SRC) -o gtk-freeglut $(LDFLAGS1)
 
 gtk-glfw: gtk-glfw.c $(SRC) $(HDR) Makefile

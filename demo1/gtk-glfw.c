@@ -13,6 +13,7 @@ int height = MINIMUM_HEIGHT;
 // OpenGL variables
 const GLfloat vertex_data[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.f, 0.5f };
 const GLfloat green[] = { 0.f, 1.f, 0.f, };
+
 GLuint program;
 GLint in_position;
 GLint uniform_color;
@@ -21,6 +22,7 @@ GLuint vertex_buffer;
 
 // Windows
 GtkWindow *gtk_window;
+GdkGLContext *gl_context;
 GLFWwindow *glfw_window = NULL;
 
 // Init draw
@@ -28,18 +30,11 @@ static int
 draw_init ()
 {
   const GLchar *gl_version = "#version 130\n";
-   const GLchar *fs_source =
-    "uniform vec3 color;"
-    "void main()"
-    "{"
-    "gl_FragColor=vec4(color,1.f);"
-    "}";
+  const GLchar *fs_source =
+    "uniform vec3 color;" "void main()" "{" "gl_FragColor=vec4(color,1.f);" "}";
   const GLchar *vs_source =
     "in vec2 position;"
-    "void main()"
-    "{"
-    "gl_Position=vec4(position,0.f,1.f);"
-    "}";
+    "void main()" "{" "gl_Position=vec4(position,0.f,1.f);" "}";
   const GLchar *position_name = "position";
   const GLchar *color_name = "color";
   const GLchar *fs_sources[2] = { gl_version, fs_source };
@@ -98,7 +93,6 @@ draw_init ()
   if (!error_code)
     {
       program = 0;
-      glDeleteShader (fs);
       error_msg = "unable to link the program";
       goto end;
     }
@@ -210,12 +204,20 @@ glfw_loop ()
   GMainContext *context = g_main_context_default ();
   do
     {
+      gdk_gl_context_make_current (gl_context);
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
       glfwMakeContextCurrent (glfw_window);
       glfwPollEvents ();
     }
   while (!glfwWindowShouldClose (glfw_window));
+}
+
+// GLFW quit
+static void
+glfw_quit ()
+{
+  glfwSetWindowShouldClose (glfw_window, 1);
 }
 
 // GLFW free
@@ -240,14 +242,14 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_widget_show_all (GTK_WIDGET (gtk_window));
 #endif
+  gl_context = gdk_gl_context_get_current ();
+  g_signal_connect (gtk_window, "destroy", (GCallback) glfw_quit, NULL);
 
   // Render window
   if (!glfw_init ())
     return 4;
   if (!draw_init ())
     return 3;
-  g_signal_connect_swapped (gtk_window, "destroy",
-                            (GCallback) glfwDestroyWindow, glfw_window);
   glfw_loop ();
   glfw_free ();
   return 0;

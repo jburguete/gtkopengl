@@ -1,0 +1,3 @@
+*demo1,demo2: resizing very slow with GLFW
+*demo1: buggy with SDL
+*demo2: no rendering with GtkGLArea

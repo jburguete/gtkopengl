@@ -34,6 +34,18 @@ elif test "x$with_gtk" = "x3"; then
 	PKG_CHECK_MODULES([GTK], [gtk+-3.0])
 fi
 
+# Check for font
+AC_MSG_NOTICE([Searching font...])
+font=`find /usr -type f -iname freemono.otf`
+if test "x$font" = "x"; then
+  font=`find /usr -type f -iname freemono.ttf`
+	if test "x$font" = "x"; then
+		AC_MSG_ERROR([FreeMono font not found])
+	fi
+fi
+AC_MSG_NOTICE([Font: $font])
+AC_SUBST(FONT, "-DFONT=\\\"$font\\\"")
+
 # Final output
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

@@ -17,12 +17,12 @@ GtkGLArea *gtk_draw;
 
 // GTK resize
 static void
-gtk_resize (GtkGLArea * widget __attribute__((unused)), int w, int h)
+gtk_resize (GtkGLArea * widget, int w, int h)
 {
   window_width = w;
   window_height = h;
   glViewport (0, 0, window_width, window_height);
-  draw_render ();
+  gtk_widget_queue_draw (GTK_WIDGET (widget));
 }
 
 // GTK realize
@@ -36,13 +36,13 @@ gtk_realize ()
 
 // Main function
 int
-main (int argn, char **argc)
+main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 {
   GMainLoop *main_loop;
 
   // Main bucle
   main_loop = g_main_loop_new (NULL, 0);
-  
+
   // GTK main window
 #if GTK_MAJOR_VERSION > 3
   gtk_init ();

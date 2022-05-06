@@ -122,8 +122,7 @@ image_init (Image * image)      ///< Image struct.
   const char *fs_texture_source =
     "out vec2 t_position;"
     "uniform sampler2D texture_image;"
-    "void main()"
-    "{gl_FragColor=texture2D(texture_image,t_position);}";
+    "void main()" "{gl_FragColor=texture2D(texture_image,t_position);}";
   const char *vs_texture_source =
     "in vec2 position;"
     "in vec2 texture_position;"
@@ -136,12 +135,9 @@ image_init (Image * image)      ///< Image struct.
   const char *texture_name = "texture_image";
   const char *texture_position_name = "texture_position";
   const char *matrix_name = "matrix";
-  const char *version =
-    "#version 120\n#define in attribute\n#define out varying\n"; // OpenGL 2.1
-  const char *vs_texture_sources[2] =
-    { version, vs_texture_source };
-  const char *fs_texture_sources[2] =
-    { version, fs_texture_source };
+  const char *version = "#version 120\n#define in attribute\n#define out varying\n";    // OpenGL 2.1
+  const char *vs_texture_sources[2] = { version, vs_texture_source };
+  const char *fs_texture_sources[2] = { version, fs_texture_source };
   // GLSL version
   const char *error_message;
   GLint k;
@@ -278,7 +274,7 @@ image_destroy (Image * image)   ///< Image struct.
   glDeleteBuffers (1, &image->vbo);
   glDeleteBuffers (1, &image->vbo_texture);
   glDeleteTextures (1, &image->id_texture);
-  glDeleteProgram (image->program_texture); 
+  glDeleteProgram (image->program_texture);
   g_slice_free1 (image->size, image->image);
 
 #if DEBUG
