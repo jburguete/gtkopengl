@@ -11,8 +11,8 @@ AUTHORS
 * Javier Burguete Tolosa
   [jburguete@eead.csic.es](mailto:jburguete@eead.csic.es).
 
-BUILDING THE PROGRAMS
----------------------
+BUILDING THE EXECUTABLES
+------------------------
 
 REQUIRED LIBRARIES AND UTILITIES
 ________________________________

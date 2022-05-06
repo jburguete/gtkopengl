@@ -11,42 +11,43 @@ AUTORES
 * Javier Burguete Tolosa
   [jburguete@eead.csic.es](mailto:jburguete@eead.csic.es).
 
-BUILDING THE PROGRAMS
----------------------
+CONSTRUIR LOS EJECUTABLES
+-------------------------
 
-REQUIRED LIBRARIES AND UTILITIES
-________________________________
+ÚTILES Y BIBLIOTECAS REQUERIDOS
+_______________________________
 
-Mandatory:
-* [gcc](https://gcc.gnu.org) or [clang](http://clang.llvm.org) to compile the
-  source code.
-* [make](http://www.gnu.org/software/make) to build the executable file.
-* [autoconf](http://www.gnu.org/software/autoconf) to generate the Makefile in
-  different operating systems.
-* [automake](http://www.gnu.org/software/automake) to check the operating
-  system.
-* [pkg-config](http://www.freedesktop.org/wiki/Software/pkg-config) to find the
-  libraries to compile.
-* [glib](https://developer.gnome.org/glib) extended utilities of C to work with
-  data, lists, mapped files, regular expressions, using multicores in shared
-  memory machines, ...
-* [png](http://libpng.sourceforge.net) to work with PNG files.
-* [gtk](http://www.gtk.org) to work with interactive windows.
-* [glew](http://glew.sourceforge.net) high level OpenGL functions.
+Obligatorio:
+* [gcc](https://gcc.gnu.org) o [clang](http://clang.llvm.org) para compilar el
+  código fuente.
+* [make](http://www.gnu.org/software/make) para construir el ejecutable.
+* [autoconf](http://www.gnu.org/software/autoconf) para generar el Makefile en
+  diferentes sistemas operativos.
+* [automake](http://www.gnu.org/software/automake) para chequear el sistema
+  operativo.
+* [pkg-config](http://www.freedesktop.org/wiki/Software/pkg-config) para
+  encontrar las bibliotecas para compilar.
+* [glib](https://developer.gnome.org/glib) utilidades extendidas de C para
+  trabajar con datos, listas, ficheros mapeados, expresiones regulares, usar
+  multiprocesador en máquinas de memoria compartida, ...
+* [png](http://libpng.sourceforge.net) para trabajar con ficheros PNG.
+* [gtk](http://www.gtk.org) para trabajar con ventanas interactivas.
+* [glew](http://glew.sourceforge.net) funciones OpenGL de alto nivel.
 
-The following optional libraries can be used as alternative to the GtkGLArea
-widget of the GTK library to interact with OpenGL to draw graphs.
+Bibliotecas opcionales que pueden usarse como alternativa al widget GtkGLArea de
+la biblioteca GTK para interactuar con OpenGL para dibujar gráficos:
 * [freeglut](http://freeglut.sourceforge.net)
 * [sdl2](https://www.libsdl.org)
 * [glfw](http://www.glfw.org)
 
-OPERATIVE SYSTEMS
-_________________
+SISTEMAS OPERATIVOS
+___________________
 
-You can install all required utilities and libraries using the instructions of
-[install-unix](https://github.com/jburguete/install-unix).
+Pueden instalarse todas las bibliotecas y utilidades requeridas usando las
+instrucciones de [install-unix](https://github.com/jburguete/install-unix).
 
-This software has been built and tested in the following operative systems:
+Este programa ha sido construido y probado en los siguientes sistemas
+operativos:
 * Arch Linux
 * Debian 11 (Linux)
 * Devuan Linux 4
@@ -54,31 +55,30 @@ This software has been built and tested in the following operative systems:
 * Fedora Linux 35
 * FreeBSD 13.0
 * Gentoo Linux
-* Linux Mint 4
+* Linux Mint DE 5
 * MacOS Catalina + Homebrew
 * Manjaro Linux
-* Microsoft Windows 10
+* Microsoft Windows 10 + MSYS2
 * NetBSD 9.2
 * OpenBSD 7.0
 * OpenInidiana Hipster
 * OpenSUSE Linux 15.3
 * Ubuntu Linux 21.04
 
-On Microsoft Windows systems you have to install
-[MSYS2](http://sourceforge.net/projects/msys2) and the required
-libraries and utilities. You can follow detailed instructions in
-[install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
-tutorial.
+En sistemas Microsoft Windows hay que instalar
+[MSYS2](http://sourceforge.net/projects/msys2) además de las bibliotecas y
+utilidades requeridas. Puede seguir instrucciones detalladas en el tutorial
+[install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf).
 
-On NetBSD 9.2, to use the last GCC version, you have to do first on the
-building terminal:
+En NetBSD 9.2, para usar la última versión del compilador GCC, hay que hacer
+primero en el terminal:
 > $ export PATH="/usr/pkg/gcc9/bin:$PATH"
 
-To do permanent this change the following line can be added to the ".profile"
-file in the user root directory:
+Si se quiere hacer permanente tambien se puede añadir en el fichero ".profile"
+de la carpeta raíz del usuario la línea:
 > PATH="/usr/pkg/gcc9/bin:$PATH"
 
-On OpenBSD 7.0 you have to do first on the building terminal:
+En OpenBSD 7.0 hay que hacer antes en el terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 BUILDING INSTRUCTIONS
