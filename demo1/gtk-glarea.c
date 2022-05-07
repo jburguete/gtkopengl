@@ -20,8 +20,8 @@ GLuint vertex_array_id;
 GLuint vertex_buffer;
 
 // Windows
-GtkWindow *gtk_window;
-GtkGLArea *gtk_draw = NULL;
+GtkWindow *gtk_window, *main_window;
+GtkGLArea *gtk_draw;
 
 // Init draw
 static int
@@ -176,8 +176,13 @@ glarea_realize ()
 int
 main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 {
+  GtkButton *button_close;
   GMainLoop *main_loop;
+
+  // Init main loop
   main_loop = g_main_loop_new (NULL, 0);
+
+  // Render window
 #if GTK_MAJOR_VERSION > 3
   gtk_init ();
   gtk_window = (GtkWindow *) gtk_window_new ();
@@ -207,6 +212,31 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
   g_signal_connect (gtk_draw, "render", (GCallback) draw_render, NULL);
   gtk_widget_show_all (GTK_WIDGET (gtk_window));
 #endif
+
+  // Main window
+#if GTK_MAJOR_VERSION > 3
+  main_window = (GtkWindow *) gtk_window_new ();
+  gtk_window_set_title (main_window, "GTK");
+  button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
+  gtk_window_set_child (main_window, GTK_WIDGET (button_close));
+  g_signal_connect_swapped (main_window, "destroy",
+                            (GCallback) gtk_window_destroy, gtk_window);
+  g_signal_connect_swapped (button_close, "clicked",
+                            (GCallback) gtk_window_destroy, main_window);
+  gtk_widget_show (GTK_WIDGET (main_window));
+#else
+  main_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (main_window, "GTK");
+  button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
+  gtk_container_add (GTK_CONTAINER (main_window), GTK_WIDGET (button_close));
+  g_signal_connect_swapped (main_window, "destroy",
+                            (GCallback) gtk_widget_destroy, gtk_window);
+  g_signal_connect_swapped (button_close, "clicked",
+                            (GCallback) gtk_widget_destroy, main_window);
+  gtk_widget_show_all (GTK_WIDGET (main_window));
+#endif
+ 
+  // Main loop
   g_main_loop_run (main_loop);
   draw_free ();
   g_main_loop_unref (main_loop);

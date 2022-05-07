@@ -1,4 +1,6 @@
-*demo0: sometimes resizing with too low sizes is enabled with SDL
-*demo1,demo2: resizing very slow with GLFW
-*demo1: buggy with SDL
-*demo2: no rendering with GtkGLArea
+*demo0,demo1,demo2: sometimes resizing with too low sizes is enabled with SDL
+*demo0,demo1,demo2: resizing very slow with GLFW
+*demo1,demo2: no rendering with SDL and GTK4
+*demo2: sometimes no refresh draw when resizing with GtkGLArea
+*demo2: bad text rendering with GtkGLArea
+*demo2: bad rendering with GtkGLArea and GTK4

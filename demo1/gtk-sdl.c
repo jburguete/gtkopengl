@@ -207,14 +207,14 @@ sdl_init ()
       return 0;
     }
   SDL_SetWindowSize (sdl_window, width, height);
+  SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+  SDL_GL_SetSwapInterval (1);
   sdl_context = SDL_GL_CreateContext (sdl_window);
   if (!sdl_context)
     {
       printf ("%s: %s\n", "Unable to create SDL context", SDL_GetError ());
       return 0;
     }
-  SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetSwapInterval (1);
   return 1;
 }
 
@@ -224,10 +224,10 @@ sdl_loop ()
 {
   SDL_Event event[1];
   GMainContext *context = g_main_context_default ();
-  sdl_render ();
   while (1)
     {
-      gdk_gl_context_make_current (gl_context);
+      if (gl_context)
+        gdk_gl_context_make_current (gl_context);
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
       SDL_GL_MakeCurrent (sdl_window, sdl_context);
@@ -272,24 +272,38 @@ sdl_loop_quit ()
 int
 main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 {
-  // GTK main window
-#if GTK_MAJOR_VERSION > 3
-  gtk_init ();
-  gtk_window = (GtkWindow *) gtk_window_new ();
-  gtk_widget_show (GTK_WIDGET (gtk_window));
-#else
-  gtk_init (&argn, &argc);
-  gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_widget_show_all (GTK_WIDGET (gtk_window));
-#endif
-  gl_context = gdk_gl_context_get_current ();
-  g_signal_connect (gtk_window, "destroy", sdl_loop_quit, NULL);
+  GtkButton *button_close;
 
   // Render window
   if (!sdl_init ())
     return 4;
   if (!draw_init ())
     return 3;
+
+  // GTK main window
+#if GTK_MAJOR_VERSION > 3
+  gtk_init ();
+  gtk_window = (GtkWindow *) gtk_window_new ();
+  gtk_window_set_title (gtk_window, "GTK");
+  button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
+  gtk_window_set_child (gtk_window, GTK_WIDGET (button_close));
+  g_signal_connect_swapped (button_close, "clicked",
+                            (GCallback) gtk_window_destroy, gtk_window);
+  gtk_widget_show (GTK_WIDGET (gtk_window));
+#else
+  gtk_init (&argn, &argc);
+  gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  gtk_window_set_title (gtk_window, "GTK");
+  button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
+  gtk_container_add (GTK_CONTAINER (gtk_window), GTK_WIDGET (button_close));
+  g_signal_connect_swapped (button_close, "clicked",
+                            (GCallback) gtk_widget_destroy, gtk_window);
+  gtk_widget_show_all (GTK_WIDGET (gtk_window));
+#endif
+  gl_context = gdk_gl_context_get_current ();
+  g_signal_connect (gtk_window, "destroy", sdl_loop_quit, NULL);
+
+  // Main loop
   sdl_loop ();
   sdl_free ();
   return 0;
