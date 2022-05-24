@@ -261,6 +261,8 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
   gtk_widget_show_all (GTK_WIDGET (gtk_window));
 #endif
   gl_context = gdk_gl_context_get_current ();
+  if (!gl_context)
+    printf ("GdkGLContext: NULL\n");
   g_signal_connect (gtk_window, "destroy", (GCallback) glfw_quit, NULL);
 
   // Main loop
