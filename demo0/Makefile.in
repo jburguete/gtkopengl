@@ -10,23 +10,25 @@ LDFLAGS3 = @SDL_LIBS@ @GLEW_LIBS@
 CFLAGS4 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ $(FLAGS)
 LDFLAGS4 = @GLEW_LIBS@ @GLIB_LIBS@
 CC = gcc -g -flto
+SRC = draw.c
+HDR = draw.h
 ALL = gtk3-freeglut gtk3-glfw gtk3-sdl gtk3-glarea \
 	gtk4-freeglut gtk4-glfw gtk4-sdl gtk4-glarea
 
 all: $(ALL)
 
-gtk3-freeglut: gtk-freeglut.c Makefile
-	$(CC) $(CFLAGS1) gtk-freeglut.c -o gtk3-freeglut $(LDFLAGS1)
+gtk3-freeglut: gtk-freeglut.c $(SRC) $(HDR) Makefile
+	$(CC) $(CFLAGS1) gtk-freeglut.c $(SRC) -o gtk3-freeglut $(LDFLAGS1)
 
-gtk3-glfw: gtk-glfw.c Makefile
-	$(CC) $(CFLAGS2) gtk-glfw.c -o gtk3-glfw $(LDFLAGS2)
+gtk3-glfw: gtk-glfw.c $(SRC) $(HDR) Makefile
+	$(CC) $(CFLAGS2) gtk-glfw.c $(SRC) -o gtk3-glfw $(LDFLAGS2)
 
-gtk3-sdl: gtk-sdl.c Makefile
-	$(CC) $(CFLAGS3) gtk-sdl.c -o gtk3-sdl $(LDFLAGS3)
+gtk3-sdl: gtk-sdl.c $(SRC) $(HDR) Makefile
+	$(CC) $(CFLAGS3) gtk-sdl.c $(SRC) -o gtk3-sdl $(LDFLAGS3)
 
-gtk3-glarea: gtk-glarea.c Makefile
-	$(CC) @GTK3_CFLAGS@ $(CFLAGS4) gtk-glarea.c -o gtk3-glarea @GTK3_LIBS@ \
-		$(LDFLAGS4)
+gtk3-glarea: gtk-glarea.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS4) gtk-glarea.c $(SRC) -o gtk3-glarea \
+		@GTK3_LIBS@ $(LDFLAGS4)
 
 gtk4-freeglut: gtk3-freeglut
 	ln -sf gtk3-freeglut gtk4-freeglut
@@ -37,9 +39,9 @@ gtk4-glfw: gtk3-glfw
 gtk4-sdl: gtk3-sdl
 	ln -sf gtk3-sdl gtk4-sdl
 
-gtk4-glarea: gtk-glarea.c Makefile
-	$(CC) @GTK4_CFLAGS@ $(CFLAGS4) gtk-glarea.c -o gtk4-glarea @GTK4_LIBS@ \
-		$(LDFLAGS4)
+gtk4-glarea: gtk-glarea.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS4) gtk-glarea.c $(SRC) -o gtk4-glarea \
+		@GTK4_LIBS@ $(LDFLAGS4)
 
 strip:
 	make
