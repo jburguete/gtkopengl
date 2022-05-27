@@ -14,42 +14,42 @@ LDFLAGS4 = @GLEW_LIBS@ @FREETYPE_LIBS@ @PNG_LIBS@ @GLIB_LIBS@
 CC = gcc -g -flto
 SRC = image.c text.c draw.c
 HDR = image.h text.h draw.h
-ALL = gtk3-freeglut gtk3-glfw gtk3-sdl gtk3-glarea \
-	gtk4-freeglut gtk4-glfw gtk4-sdl gtk4-glarea
+ALL = gtk3-opengl-freeglut gtk3-opengl-glfw gtk3-opengl-sdl gtk3-opengl-glarea \
+	gtk4-opengl-freeglut gtk4-opengl-glfw gtk4-opengl-sdl gtk4-opengl-glarea
 
 all: $(ALL)
 
-gtk3-freeglut: gtk-freeglut.c $(SRC) $(HDR) Makefile
-	$(CC) @GTK3_CFLAGS@ $(CFLAGS1) gtk-freeglut.c $(SRC) -o gtk3-freeglut \
-		@GTK3_LIBS@ $(LDFLAGS1)
+gtk3-opengl-freeglut: gtk-opengl-freeglut.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS1) gtk-opengl-freeglut.c $(SRC) \
+		-o gtk3-opengl-freeglut @GTK3_LIBS@ $(LDFLAGS1)
 
-gtk3-glfw: gtk-glfw.c $(SRC) $(HDR) Makefile
-	$(CC) @GTK3_CFLAGS@ $(CFLAGS2) gtk-glfw.c $(SRC) -o gtk3-glfw @GTK3_LIBS@ \
-		$(LDFLAGS2)
+gtk3-opengl-glfw: gtk-opengl-glfw.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS2) gtk-opengl-glfw.c $(SRC) \
+		-o gtk3-opengl-glfw @GTK3_LIBS@ $(LDFLAGS2)
 
-gtk3-sdl: gtk-sdl.c $(SRC) $(HDR) Makefile
-	$(CC) @GTK3_CFLAGS@ $(CFLAGS3) gtk-sdl.c $(SRC) -o gtk3-sdl @GTK3_LIBS@ \
-		$(LDFLAGS3)
+gtk3-opengl-sdl: gtk-opengl-sdl.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS3) gtk-opengl-sdl.c $(SRC) -o gtk3-opengl-sdl \
+		@GTK3_LIBS@ $(LDFLAGS3)
 
-gtk3-glarea: gtk-glarea.c $(SRC) $(HDR) Makefile
-	$(CC) @GTK3_CFLAGS@ $(CFLAGS4) gtk-glarea.c $(SRC) -o gtk3-glarea \
-		@GTK3_LIBS@ $(LDFLAGS4)
+gtk3-opengl-glarea: gtk-opengl-glarea.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS4) gtk-opengl-glarea.c $(SRC) \
+		-o gtk3-opengl-glarea @GTK3_LIBS@ $(LDFLAGS4)
 
-gtk4-freeglut: gtk-freeglut.c $(SRC) $(HDR) Makefile
-	$(CC) @GTK4_CFLAGS@ $(CFLAGS1) gtk-freeglut.c $(SRC) -o gtk4-freeglut \
-		@GTK4_LIBS@ $(LDFLAGS1)
+gtk4-opengl-freeglut: gtk-opengl-freeglut.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS1) gtk-opengl-freeglut.c $(SRC) \
+		-o gtk4-opengl-freeglut @GTK4_LIBS@ $(LDFLAGS1)
 
-gtk4-glfw: gtk-glfw.c $(SRC) $(HDR) Makefile
-	$(CC) @GTK4_CFLAGS@ $(CFLAGS2) gtk-glfw.c $(SRC) -o gtk4-glfw @GTK4_LIBS@ \
-		$(LDFLAGS2)
+gtk4-opengl-glfw: gtk-opengl-glfw.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS2) gtk-opengl-glfw.c $(SRC) -o gtk4-opengl-glfw \
+		@GTK4_LIBS@ $(LDFLAGS2)
 
-gtk4-sdl: gtk-sdl.c $(SRC) $(HDR) Makefile
-	$(CC) @GTK4_CFLAGS@ $(CFLAGS3) gtk-sdl.c $(SRC) -o gtk4-sdl @GTK4_LIBS@ \
-		$(LDFLAGS3)
+gtk4-opengl-sdl: gtk-opengl-sdl.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS3) gtk-opengl-sdl.c $(SRC) -o gtk4-opengl-sdl \
+		@GTK4_LIBS@ $(LDFLAGS3)
 
-gtk4-glarea: gtk-glarea.c $(SRC) $(HDR) Makefile
-	$(CC) @GTK4_CFLAGS@ $(CFLAGS4) gtk-glarea.c $(SRC) -o gtk4-glarea \
-		@GTK4_LIBS@ $(LDFLAGS4)
+gtk4-opengl-glarea: gtk-opengl-glarea.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS4) gtk-opengl-glarea.c $(SRC) \
+		-o gtk4-opengl-glarea @GTK4_LIBS@ $(LDFLAGS4)
 
 strip:
 	make

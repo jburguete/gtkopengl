@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 #include "draw.h"
 
 // Window minimum size
 #define MINIMUM_WIDTH 320
 #define MINIMUM_HEIGHT 240
-int width = MINIMUM_WIDTH;
-int height = MINIMUM_HEIGHT;
+int window_width = MINIMUM_WIDTH;
+int window_height = MINIMUM_HEIGHT;
 
 // Windows
 GLFWwindow *glfw_window = NULL;
@@ -24,9 +25,9 @@ glfw_render ()
 static void
 glfw_resize (GLFWwindow * window __attribute__((unused)), int w, int h)
 {
-  width = w;
-  height = h;
-  glViewport (0, 0, width, height);
+  window_width = w;
+  window_height = h;
+  glViewport (0, 0, w, h);
 }
 
 // Init GLFW
@@ -38,7 +39,8 @@ glfw_init ()
       puts ("Unable to init GLFW");
       return 0;
     }
-  glfw_window = glfwCreateWindow (width, height, "GLFW", NULL, NULL);
+  glfw_window
+    = glfwCreateWindow (window_width, window_height, "GLFW", NULL, NULL);
   if (!glfw_window)
     {
       puts ("Unable to open the GLFW window");
@@ -49,7 +51,7 @@ glfw_init ()
   glfwMakeContextCurrent (glfw_window);
   glfwSetFramebufferSizeCallback (glfw_window, glfw_resize);
   glfwSetWindowRefreshCallback (glfw_window, glfw_render);
-  glViewport (0, 0, width, height);
+  glViewport (0, 0, window_width, window_height);
   return 1;
 }
 

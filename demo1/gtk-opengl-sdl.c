@@ -3,13 +3,14 @@
 #include <GL/glew.h>
 #include <SDL.h>
 #include <gtk/gtk.h>
+
 #include "draw.h"
 
 // Window minimum size
 #define MINIMUM_WIDTH 320
 #define MINIMUM_HEIGHT 240
-int width = MINIMUM_WIDTH;
-int height = MINIMUM_HEIGHT;
+int window_width = MINIMUM_WIDTH;
+int window_height = MINIMUM_HEIGHT;
 
 // Windows
 GtkWindow *gtk_window;
@@ -32,21 +33,21 @@ sdl_resize (int w, int h)
   unsigned int resize = 0;
   if (w < MINIMUM_WIDTH)
     {
-      width = MINIMUM_WIDTH;
+      window_width = MINIMUM_WIDTH;
       resize = 1;
     }
   else
-    width = w;
+    window_width = w;
   if (h < MINIMUM_HEIGHT)
     {
-      height = MINIMUM_HEIGHT;
+      window_height = MINIMUM_HEIGHT;
       resize = 1;
     }
   else
-    height = h;
+    window_height = h;
   if (resize)
-    SDL_SetWindowSize (sdl_window, width, height);
-  glViewport (0, 0, width, height);
+    SDL_SetWindowSize (sdl_window, window_width, window_height);
+  glViewport (0, 0, window_width, window_height);
 }
 
 // Init SDL
@@ -67,7 +68,7 @@ sdl_init ()
       printf ("%s: %s\n", "Unable to create SDL window", SDL_GetError ());
       return 0;
     }
-  SDL_SetWindowSize (sdl_window, width, height);
+  SDL_SetWindowSize (sdl_window, window_width, window_height);
   SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
   SDL_GL_SetSwapInterval (1);
   sdl_context = SDL_GL_CreateContext (sdl_window);
@@ -85,6 +86,7 @@ sdl_loop ()
 {
   SDL_Event event[1];
   GMainContext *context = g_main_context_default ();
+  sdl_render ();
   while (1)
     {
       if (gl_context)

@@ -2,13 +2,14 @@
 #include <glib.h>
 #include <GL/glew.h>
 #include <gtk/gtk.h>
+
 #include "draw.h"
 
 // Window minimum size
 #define MINIMUM_WIDTH 320
 #define MINIMUM_HEIGHT 240
-int width = MINIMUM_WIDTH;
-int height = MINIMUM_HEIGHT;
+int window_width = MINIMUM_WIDTH;
+int window_height = MINIMUM_HEIGHT;
 
 // Windows
 GtkWindow *gtk_window, *main_window;
@@ -18,9 +19,9 @@ GtkGLArea *gtk_draw;
 static void
 glarea_resize (GtkGLArea * widget __attribute__((unused)), int w, int h)
 {
-  width = w;
-  height = h;
-  glViewport (0, 0, width, height);
+  window_width = w;
+  window_height = h;
+  glViewport (0, 0, window_width, window_height);
 #if GTK_MAJOR_VERSION < 4
   gtk_widget_queue_draw (GTK_WIDGET (widget));
 #endif

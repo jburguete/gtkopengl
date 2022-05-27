@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+
 #include "draw.h"
 
 #define MAX(a, b) (((a) > (b)) ? (a) : (b))
@@ -8,8 +9,8 @@
 // Window minimum size
 #define MINIMUM_WIDTH 320
 #define MINIMUM_HEIGHT 240
-int width = MINIMUM_WIDTH;
-int height = MINIMUM_HEIGHT;
+int window_width = MINIMUM_WIDTH;
+int window_height = MINIMUM_HEIGHT;
 
 // Windows
 int glut_window;
@@ -20,9 +21,9 @@ freeglut_init (int *argn, char **argc)
 {
   glutInit (argn, argc);
   glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-  glutInitWindowSize (width, height);
+  glutInitWindowSize (window_width, window_height);
   glut_window = glutCreateWindow ("FreeGLUT");
-  glViewport (0, 0, width, height);
+  glViewport (0, 0, window_width, window_height);
 }
 
 // FreeGLUT idle function
@@ -36,10 +37,10 @@ freeglut_idle ()
 static void
 freeglut_resize (int w, int h)
 {
-  width = MAX (w, MINIMUM_WIDTH);
-  height = MAX (h, MINIMUM_HEIGHT);
-  glutReshapeWindow (width, height);
-  glViewport (0, 0, width, height);
+  window_width = MAX (w, MINIMUM_WIDTH);
+  window_height = MAX (h, MINIMUM_HEIGHT);
+  glutReshapeWindow (window_width, window_height);
+  glViewport (0, 0, window_width, window_height);
 }
 
 // FreeGLUT render function
