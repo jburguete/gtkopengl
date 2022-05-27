@@ -17,12 +17,14 @@ GtkGLArea *gtk_draw;
 
 // GTK resize
 static void
-glarea_resize (GtkGLArea * widget, int w, int h)
+glarea_resize (GtkGLArea * widget __attribute__((unused)), int w, int h)
 {
   window_width = w;
   window_height = h;
   glViewport (0, 0, window_width, window_height);
+#if GTK_MAJOR_VERSION < 4
   gtk_widget_queue_draw (GTK_WIDGET (widget));
+#endif
 }
 
 // GTK realize

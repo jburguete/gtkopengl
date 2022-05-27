@@ -1,30 +1,47 @@
 .PHONY: strip clean
 
 FLAGS = -march=native -Os -Wall -Wextra
-CFLAGS1 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ @GTK_CFLAGS@ $(FLAGS)
-LDFLAGS1 = -lglut @GTK_LIBS@ @GLEW_LIBS@ @GLIB_LIBS@
-CFLAGS2 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ @GTK_CFLAGS@ @GLFW_CFLAGS@ $(FLAGS)
-LDFLAGS2 = @GLFW_LIBS@ @GTK_LIBS@ @GLEW_LIBS@ @GLIB_LIBS@
-CFLAGS3 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ @GTK_CFLAGS@ @SDL_CFLAGS@ $(FLAGS)
-LDFLAGS3 = @SDL_LIBS@ @GTK_LIBS@ @GLEW_LIBS@ @GLIB_LIBS@
-CFLAGS4 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ @GTK_CFLAGS@ $(FLAGS)
-LDFLAGS4 = @GTK_LIBS@ @GLEW_LIBS@ @GLIB_LIBS@
+CFLAGS1 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ $(FLAGS)
+LDFLAGS1 = -lglut @GLEW_LIBS@ @GLIB_LIBS@
+CFLAGS2 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ @GLFW_CFLAGS@ $(FLAGS)
+LDFLAGS2 = @GLFW_LIBS@ @GLEW_LIBS@ @GLIB_LIBS@
+CFLAGS3 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ @SDL_CFLAGS@ $(FLAGS)
+LDFLAGS3 = @SDL_LIBS@ @GLEW_LIBS@ @GLIB_LIBS@
+CFLAGS4 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ $(FLAGS)
+LDFLAGS4 = @GLEW_LIBS@ @GLIB_LIBS@
 CC = gcc -g -flto
-ALL = gtk-freeglut gtk-glfw gtk-sdl gtk-glarea
+ALL = gtk3-freeglut gtk3-glfw gtk3-sdl gtk3-glarea \
+	gtk4-freeglut gtk4-glfw gtk4-sdl gtk4-glarea
 
 all: $(ALL)
 
-gtk-freeglut: gtk-freeglut.c Makefile
-	$(CC) $(CFLAGS1) gtk-freeglut.c -o gtk-freeglut $(LDFLAGS1)
+gtk3-freeglut: gtk-freeglut.c Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS1) gtk-freeglut.c -o gtk3-freeglut @GTK3_LIBS@ \
+		$(LDFLAGS1)
 
-gtk-glfw: gtk-glfw.c Makefile
-	$(CC) $(CFLAGS2) gtk-glfw.c -o gtk-glfw $(LDFLAGS2)
+gtk3-glfw: gtk-glfw.c Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS2) gtk-glfw.c -o gtk3-glfw @GTK3_LIBS@ $(LDFLAGS2)
 
-gtk-sdl: gtk-sdl.c Makefile
-	$(CC) $(CFLAGS3) gtk-sdl.c -o gtk-sdl $(LDFLAGS3)
+gtk3-sdl: gtk-sdl.c Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS3) gtk-sdl.c -o gtk3-sdl @GTK3_LIBS@ $(LDFLAGS3)
 
-gtk-glarea: gtk-glarea.c Makefile
-	$(CC) $(CFLAGS4) gtk-glarea.c -o gtk-glarea $(LDFLAGS4)
+gtk3-glarea: gtk-glarea.c Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS4) gtk-glarea.c -o gtk3-glarea @GTK3_LIBS@ \
+		$(LDFLAGS4)
+
+gtk4-freeglut: gtk-freeglut.c Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS1) gtk-freeglut.c -o gtk4-freeglut @GTK4_LIBS@ \
+		$(LDFLAGS1)
+
+gtk4-glfw: gtk-glfw.c Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS2) gtk-glfw.c -o gtk4-glfw @GTK4_LIBS@ $(LDFLAGS2)
+
+gtk4-sdl: gtk-sdl.c Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS3) gtk-sdl.c -o gtk4-sdl @GTK4_LIBS@ $(LDFLAGS3)
+
+gtk4-glarea: gtk-glarea.c Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS4) gtk-glarea.c -o gtk4-glarea @GTK4_LIBS@ \
+		$(LDFLAGS4)
 
 strip:
 	make

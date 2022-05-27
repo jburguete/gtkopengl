@@ -22,17 +22,8 @@ PKG_CHECK_MODULES([FREETYPE], [freetype2])
 PKG_CHECK_MODULES([GLEW], [glew])
 PKG_CHECK_MODULES([GLFW], [glfw3])
 PKG_CHECK_MODULES([SDL], [sdl2])
-AC_ARG_WITH([gtk],
-	AS_HELP_STRING([--with-gtk],
-		[Build using a version of GTK (3 (--with-gtk=3 or 4 (--with-gtk=4))]))
-if test "x$with_gtk" = "x4"; then
-	PKG_CHECK_MODULES([GTK], [gtk4], [gtk4=1], [gtk4=0])
-  if test $gtk4 = 0; then
-	  PKG_CHECK_MODULES([GTK], [gtk+-3.0])
-  fi
-elif test "x$with_gtk" = "x3"; then
-	PKG_CHECK_MODULES([GTK], [gtk+-3.0])
-fi
+PKG_CHECK_MODULES([GTK4], [gtk4])
+PKG_CHECK_MODULES([GTK3], [gtk+-3.0])
 
 # Check for font
 AC_MSG_NOTICE([Searching font...])

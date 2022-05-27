@@ -160,6 +160,9 @@ glarea_resize (GtkGLArea * widget __attribute__((unused)), int w, int h)
   width = w;
   height = h;
   glViewport (0, 0, width, height);
+#if GTK_MAJOR_VERSION < 4
+  gtk_widget_queue_draw (GTK_WIDGET (widget));
+#endif
 }
 
 // GTK realize
