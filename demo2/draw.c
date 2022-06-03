@@ -77,10 +77,11 @@ GLuint vertex2_buffer;
 Image *logo;                    ///< Logo data.
 Text text[1];                   ///< Text data.
 
-unsigned int window_width = MINIMUM_WIDTH;      ///< Graphic window width.
-unsigned int window_height = MINIMUM_HEIGHT;    ///< Graphic window height.
+unsigned int window_width = MINIMUM_WIDTH;
+unsigned int window_height = MINIMUM_HEIGHT;
 
-unsigned int
+// Init draw
+int
 draw_init ()
 {
   const char **fragment_shader_source, **vertex_shader_source;
@@ -221,6 +222,7 @@ exit_on_error:
   return 0;
 }
 
+// Render draw
 void
 draw_render ()
 {

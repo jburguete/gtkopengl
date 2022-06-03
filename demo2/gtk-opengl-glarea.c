@@ -99,7 +99,7 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
                             (GCallback) gtk_widget_destroy, main_window);
   gtk_widget_show_all (GTK_WIDGET (main_window));
 #endif
- 
+
   // Main loop
   g_main_loop_run (main_loop);
   draw_free ();

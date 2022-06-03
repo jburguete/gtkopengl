@@ -4,12 +4,6 @@
 
 #include "draw.h"
 
-// Window minimum size
-#define MINIMUM_WIDTH 320
-#define MINIMUM_HEIGHT 240
-int window_width = MINIMUM_WIDTH;
-int window_height = MINIMUM_HEIGHT;
-
 // Windows
 GLFWwindow *glfw_window = NULL;
 

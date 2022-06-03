@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <GL/glew.h>
+#include "draw.h"
 
 // OpenGL variables
 const GLfloat vertex_data[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.f, 0.5f };
@@ -10,6 +11,9 @@ GLint in_position;
 GLint uniform_color;
 GLuint vertex_array_id;
 GLuint vertex_buffer;
+
+unsigned int window_width = MINIMUM_WIDTH;
+unsigned int window_height = MINIMUM_HEIGHT;
 
 // Init draw
 int

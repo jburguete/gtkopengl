@@ -1,0 +1,37 @@
+.PHONY: strip clean
+
+FLAGS = -march=native -Os -Wall -Wextra
+CFLAGS1 = @PNG_CFLAGS@ @GLIB_CFLAGS@ @GLEW_CFLAGS@ $(FLAGS)
+LDFLAGS1 = -lglut @GLEW_LIBS@ @PNG_LIBS@ @GLIB_LIBS@
+CFLAGS4 = @PNG_CFLAGS@ @GLIB_CFLAGS@ @GLEW_CFLAGS@ $(FLAGS)
+LDFLAGS4 = @GLEW_LIBS@ @PNG_LIBS@ @GLIB_LIBS@
+CC = gcc -g -flto
+SRC = draw.c image.c
+HDR = draw.h image.h
+ALL = gtk3-opengl-freeglut gtk3-opengl-glarea \
+	gtk4-opengl-freeglut gtk4-opengl-glarea
+
+all: $(ALL)
+
+gtk3-opengl-freeglut: gtk-opengl-freeglut.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS1) gtk-opengl-freeglut.c $(SRC) \
+		-o gtk3-opengl-freeglut @GTK3_LIBS@ $(LDFLAGS1)
+
+gtk3-opengl-glarea: gtk-opengl-glarea.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS4) gtk-opengl-glarea.c $(SRC) \
+		-o gtk3-opengl-glarea @GTK3_LIBS@ $(LDFLAGS4)
+
+gtk4-opengl-freeglut: gtk-opengl-freeglut.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS1) gtk-opengl-freeglut.c $(SRC) \
+		-o gtk4-opengl-freeglut @GTK4_LIBS@ $(LDFLAGS1)
+
+gtk4-opengl-glarea: gtk-opengl-glarea.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS4) gtk-opengl-glarea.c $(SRC) \
+		-o gtk4-opengl-glarea @GTK4_LIBS@ $(LDFLAGS4)
+
+strip:
+	make
+	strip $(ALL)
+
+clean:
+	rm $(ALL)

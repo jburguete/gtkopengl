@@ -4,6 +4,7 @@
 #include <GL/freeglut.h>
 #include <gtk/gtk.h>
 
+#include "image.h"
 #include "draw.h"
 
 // Windows

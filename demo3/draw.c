@@ -1,16 +1,25 @@
 #include <stdio.h>
+#include <png.h>
 #include <GL/glew.h>
+#include "image.h"
 #include "draw.h"
 
 // OpenGL variables
-const GLfloat vertex_data[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.f, 0.5f };
-const GLfloat green[] = { 0.f, 1.f, 0.f, };
+const GLfloat vertex1_data[] = { -1.0f, -1.0f, 1.0f, -1.0f, 0.0f, 1.0f };
+const GLfloat vertex2_data[] = { -1.0f, 1.0f, 1.0f, 1.0f, 0.0f, -1.0f };
+
+const GLfloat green[] = { 0.f, 1.f, 0.f };
+const GLfloat red[] = { 1.f, 0.f, 0.f };
 
 GLuint program;
 GLint in_position;
 GLint uniform_color;
-GLuint vertex_array_id;
-GLuint vertex_buffer;
+GLuint vertex1_array_id;
+GLuint vertex2_array_id;
+GLuint vertex1_buffer;
+GLuint vertex2_buffer;
+
+Image *logo;                    ///< Logo data.
 
 unsigned int window_width = MINIMUM_WIDTH;
 unsigned int window_height = MINIMUM_HEIGHT;
@@ -46,6 +55,17 @@ draw_init ()
       error_msg = "OpenGL 3.0 is not supported";
       goto end;
     }
+
+  // Opening logo
+  logo = image_new ("logo.png");
+  if (!logo)
+    {
+      error_msg = "Unable to open the logo";
+      goto end;
+    }
+
+  // Enable
+  glEnable (GL_DEPTH_TEST);
 
   // Compiling the fragment shader
   fs = glCreateShader (GL_FRAGMENT_SHADER);
@@ -101,14 +121,28 @@ draw_init ()
       goto end;
     }
 
-  // Triangle vertex array
-  glGenVertexArrays (1, &vertex_array_id);
-  glBindVertexArray (vertex_array_id);
-  glGenBuffers (1, &vertex_buffer);
-  glBindBuffer (GL_ARRAY_BUFFER, vertex_buffer);
-  glBufferData (GL_ARRAY_BUFFER, sizeof (vertex_data), vertex_data,
+  // 1st triangle vertex array
+  glGenVertexArrays (1, &vertex1_array_id);
+  glBindVertexArray (vertex1_array_id);
+  glGenBuffers (1, &vertex1_buffer);
+  glBindBuffer (GL_ARRAY_BUFFER, vertex1_buffer);
+  glBufferData (GL_ARRAY_BUFFER, sizeof (vertex1_data), vertex1_data,
                 GL_STATIC_DRAW);
 
+  // 2nd triangle vertex array
+  glGenVertexArrays (1, &vertex2_array_id);
+  glBindVertexArray (vertex2_array_id);
+  glGenBuffers (1, &vertex2_buffer);
+  glBindBuffer (GL_ARRAY_BUFFER, vertex2_buffer);
+  glBufferData (GL_ARRAY_BUFFER, sizeof (vertex2_data), vertex2_data,
+                GL_STATIC_DRAW);
+
+  // Init logo
+  if (!image_init (logo))
+    {
+      error_msg = "Unable to init the logo";
+      goto end;
+    }
 
   // Ending on success
   return 1;
@@ -128,19 +162,38 @@ draw_render ()
   glClearColor (0., 0., 0., 1.);
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  // Triangle
+  // Triangle program
   glUseProgram (program);
+
+  // 1st triangle
   glUniform3fv (uniform_color, 1, green);
   glEnableVertexAttribArray (in_position);
   glVertexAttribPointer (in_position, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+  glBindBuffer (GL_ARRAY_BUFFER, vertex1_buffer);
   glDrawArrays (GL_TRIANGLES, 0, 3);
   glDisableVertexAttribArray (in_position);
+
+  // 2nd triangle
+  glUniform3fv (uniform_color, 1, red);
+  glEnableVertexAttribArray (in_position);
+  glVertexAttribPointer (in_position, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+  glBindBuffer (GL_ARRAY_BUFFER, vertex2_buffer);
+  glDrawArrays (GL_TRIANGLES, 0, 3);
+  glDisableVertexAttribArray (in_position);
+
+  glEnable (GL_BLEND);
+  glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  // Draw the logo
+  image_draw (logo, window_width, window_height);
+  glDisable (GL_BLEND);
 }
 
 // Free draw
 void
 draw_free ()
 {
-  glDeleteBuffers (1, &vertex_buffer);
+  image_destroy (logo);
+  glDeleteBuffers (1, &vertex1_buffer);
+  glDeleteBuffers (1, &vertex2_buffer);
   glDeleteProgram (program);
 }
