@@ -62,19 +62,19 @@ operativos:
 * Arch Linux
 * Debian 11 (Linux)
 * Devuan Linux 4
-* Dragonfly BSD 6.2.1
-* Fedora Linux 35
-* FreeBSD 13.0
+* Dragonfly BSD 6.2.2
+* Fedora Linux 37
+* FreeBSD 13.1
 * Gentoo Linux
 * Linux Mint DE 5
 * MacOS Catalina + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10 + MSYS2
 * NetBSD 9.2
-* OpenBSD 7.0
+* OpenBSD 7.2
 * OpenInidiana Hipster
-* OpenSUSE Linux 15.3
-* Ubuntu Linux 21.04
+* OpenSUSE Linux 15.4
+* Ubuntu Linux 22.10
 
 En sistemas Microsoft Windows hay que instalar
 [MSYS2](http://sourceforge.net/projects/msys2) además de las bibliotecas y
