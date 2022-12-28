@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <GL/glew.h>
+#include "config.h"
 #include "draw.h"
-
-#define DEBUG 1
 
 // OpenGL variables
 const GLfloat vertex_data[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.f, 0.5f };
@@ -117,18 +116,22 @@ draw_init ()
 
 
   // Ending on success
+
 #if DEBUG
   fprintf (stderr, "draw_init: end on sucess\n");
 #endif
+
   return 1;
 
 end:
 
   // Ending on error
   puts (error_msg);
+
 #if DEBUG
   fprintf (stderr, "draw_init: end on error\n");
 #endif
+
   return 0;
 }
 
@@ -163,12 +166,16 @@ draw_render ()
 void
 draw_free ()
 {
+
 #if DEBUG
   fprintf (stderr, "draw_free: start\n");
 #endif
+
   glDeleteBuffers (1, &vertex_buffer);
   glDeleteProgram (program);
+
 #if DEBUG
   fprintf (stderr, "draw_free: end\n");
 #endif
+
 }

@@ -2,7 +2,7 @@
 #include <glib.h>
 #include <GL/glew.h>
 #include <gtk/gtk.h>
-
+#include "config.h"
 #include "draw.h"
 
 // Windows
@@ -13,21 +13,40 @@ GtkGLArea *gtk_draw;
 static void
 glarea_resize (GtkGLArea * widget __attribute__((unused)), int w, int h)
 {
+
+#if DEBUG
+  fprintf (stderr, "glarea_resize: start\n");
+#endif
+
   window_width = w;
   window_height = h;
   glViewport (0, 0, window_width, window_height);
 #if GTK_MAJOR_VERSION < 4
   gtk_widget_queue_draw (GTK_WIDGET (widget));
 #endif
+
+#if DEBUG
+  fprintf (stderr, "glarea_resize: end\n");
+#endif
+
 }
 
 // GTK realize
 static void
 glarea_realize ()
 {
+
+#if DEBUG
+  fprintf (stderr, "glarea_realize: start\n");
+#endif
+
   gtk_gl_area_make_current (gtk_draw);
-  if (!draw_init ())
-    return;
+  draw_init ();
+
+#if DEBUG
+  fprintf (stderr, "glarea_realize: end\n");
+#endif
+
 }
 
 // Main function

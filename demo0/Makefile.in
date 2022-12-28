@@ -11,7 +11,7 @@ CFLAGS4 = @GLIB_CFLAGS@ @GLEW_CFLAGS@ $(FLAGS)
 LDFLAGS4 = @GLEW_LIBS@ @GLIB_LIBS@
 CC = gcc -g -flto
 SRC = draw.c
-HDR = draw.h
+HDR = draw.h config.h
 ALL = gtk3-opengl-freeglut gtk3-opengl-glfw gtk3-opengl-sdl gtk3-opengl-glarea \
 	gtk4-opengl-freeglut gtk4-opengl-glfw gtk4-opengl-sdl gtk4-opengl-glarea
 

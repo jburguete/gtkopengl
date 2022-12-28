@@ -3,10 +3,8 @@
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <gtk/gtk.h>
-
+#include "config.h"
 #include "draw.h"
-
-#define DEBUG 1
 
 // Windows
 GtkWindow *gtk_window;
@@ -17,9 +15,11 @@ int glut_window;
 static void
 freeglut_init (int *argn, char **argc)
 {
+
 #if DEBUG
   fprintf (stderr, "freeglut_init: start\n");
 #endif
+
   glutInit (argn, argc);
   printf ("0\n");
   glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
@@ -29,9 +29,11 @@ freeglut_init (int *argn, char **argc)
   glut_window = glutCreateWindow ("FreeGLUT");
   printf ("3\n");
   glViewport (0, 0, window_width, window_height);
+
 #if DEBUG
   fprintf (stderr, "freeglut_init: end\n");
 #endif
+
 }
 
 // FreeGLUT idle function
@@ -39,64 +41,80 @@ static void
 freeglut_idle ()
 {
   GMainContext *context;
+
 #if DEBUG
   fprintf (stderr, "freeglut_idle: start\n");
 #endif
+
   context = g_main_context_default ();
   if (gl_context)
     gdk_gl_context_make_current (gl_context);
   while (g_main_context_pending (context))
     g_main_context_iteration (context, 0);
   glutSetWindow (glut_window);
+
 #if DEBUG
   fprintf (stderr, "freeglut_idle: end\n");
 #endif
+
 }
 
 // FreeGLUT resize function
 static void
 freeglut_resize (int w, int h)
 {
+
 #if DEBUG
   fprintf (stderr, "freeglut_resize: start\n");
 #endif
+
   window_width = MAX (w, MINIMUM_WIDTH);
   window_height = MAX (h, MINIMUM_HEIGHT);
   glutReshapeWindow (window_width, window_height);
   glViewport (0, 0, window_width, window_height);
+
 #if DEBUG
   fprintf (stderr, "freeglut_resize: end\n");
 #endif
+
 }
 
 // FreeGLUT render function
 static void
 freeglut_render ()
 {
+
 #if DEBUG
   fprintf (stderr, "freeglut_render: start\n");
 #endif
+
   draw_render ();
   glutSwapBuffers ();
+
 #if DEBUG
   fprintf (stderr, "freeglut_render: end\n");
 #endif
+
 }
 
 // FreeGLUT loop
 static void
 freeglut_loop ()
 {
+
 #if DEBUG
   fprintf (stderr, "freeglut_loop: start\n");
 #endif
+
   glutIdleFunc (freeglut_idle);
   glutReshapeFunc (freeglut_resize);
   glutDisplayFunc (freeglut_render);
   glutMainLoop ();
+
 #if DEBUG
   fprintf (stderr, "freeglut_loop: end\n");
 #endif
+
 }
 
 // Main function
