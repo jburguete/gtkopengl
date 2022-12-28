@@ -2,6 +2,8 @@
 #include <GL/glew.h>
 #include "draw.h"
 
+#define DEBUG 1
+
 // OpenGL variables
 const GLfloat vertex_data[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.f, 0.5f };
 const GLfloat green[] = { 0.f, 1.f, 0.f, };
@@ -33,6 +35,10 @@ draw_init ()
   GLint error_code;
   GLuint fs, vs;
   GLenum glew_status;
+
+#if DEBUG
+  fprintf (stderr, "draw_init: start\n");
+#endif
 
   // Initing GLEW library
   glew_status = glewInit ();
@@ -111,12 +117,18 @@ draw_init ()
 
 
   // Ending on success
+#if DEBUG
+  fprintf (stderr, "draw_init: end on sucess\n");
+#endif
   return 1;
 
 end:
 
   // Ending on error
   puts (error_msg);
+#if DEBUG
+  fprintf (stderr, "draw_init: end on error\n");
+#endif
   return 0;
 }
 
@@ -124,6 +136,11 @@ end:
 void
 draw_render ()
 {
+
+#if DEBUG
+  fprintf (stderr, "draw_render: start\n");
+#endif
+
   // Clear screen
   glClearColor (0., 0., 0., 1.);
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -135,12 +152,23 @@ draw_render ()
   glVertexAttribPointer (in_position, 2, GL_FLOAT, GL_FALSE, 0, NULL);
   glDrawArrays (GL_TRIANGLES, 0, 3);
   glDisableVertexAttribArray (in_position);
+
+#if DEBUG
+  fprintf (stderr, "draw_render: end\n");
+#endif
+
 }
 
 // Free draw
 void
 draw_free ()
 {
+#if DEBUG
+  fprintf (stderr, "draw_free: start\n");
+#endif
   glDeleteBuffers (1, &vertex_buffer);
   glDeleteProgram (program);
+#if DEBUG
+  fprintf (stderr, "draw_free: end\n");
+#endif
 }
