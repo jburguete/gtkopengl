@@ -21,13 +21,9 @@ freeglut_init (int *argn, char **argc)
 #endif
 
   glutInit (argn, argc);
-  printf ("0\n");
   glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-  printf ("1\n");
   glutInitWindowSize (window_width, window_height);
-  printf ("2\n");
   glut_window = glutCreateWindow ("FreeGLUT");
-  printf ("3\n");
   glViewport (0, 0, window_width, window_height);
 
 #if DEBUG
@@ -123,6 +119,11 @@ main (int argn, char **argc)
 {
   GtkButton *button_close;
 
+  // Render window
+  freeglut_init (&argn, argc);
+  if (!draw_init ())
+    return 3;
+
   // GTK main window
 #if GTK_MAJOR_VERSION > 3
   gtk_init ();
@@ -148,12 +149,7 @@ main (int argn, char **argc)
   if (!gl_context)
     printf ("GdkGLContext: NULL\n");
 
-  // Render window
-  freeglut_init (&argn, argc);
-  if (!draw_init ())
-    return 3;
   g_signal_connect (gtk_window, "destroy", glutLeaveMainLoop, NULL);
-
 
   // Main loop
   freeglut_loop ();
