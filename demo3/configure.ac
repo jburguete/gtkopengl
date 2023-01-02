@@ -22,7 +22,7 @@ AC_SEARCH_LIBS([glViewport], [GL opengl32],
 	AC_MSG_NOTICE([OpenGL OK]),
 	AC_MSG_ERROR([OpenGL not found]))
 PKG_CHECK_MODULES([GLEW], [glew])
-PKG_CHECK_MODULES([GLUT], [freeglut])
+PKG_CHECK_MODULES([GLUT], [freeglut], , [PKG_CHECK_MODULES([GLUT], [glut])])
 PKG_CHECK_MODULES([GLFW], [glfw3])
 PKG_CHECK_MODULES([SDL], [sdl2])
 PKG_CHECK_MODULES([GTK4], [gtk4])
