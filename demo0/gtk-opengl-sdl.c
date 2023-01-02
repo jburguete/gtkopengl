@@ -170,7 +170,7 @@ sdl_free ()
 
 // Main function
 int
-main ()
+main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 {
   if (!sdl_init ())
     return 4;
