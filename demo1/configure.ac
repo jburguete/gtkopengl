@@ -1,3 +1,4 @@
+# Header
 AC_PREREQ([2.69])
 AC_INIT([gtkopengl], [0.0.0], [https://github.com/jburguete/gtkopengl])
 
