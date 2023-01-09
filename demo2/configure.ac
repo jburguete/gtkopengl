@@ -10,7 +10,7 @@ AC_MSG_NOTICE([Host: $host])
 AC_MSG_NOTICE([Target: $target])
 
 # Checks for programs
-AC_PROG_CC([egcc gcc clang])
+AC_PROG_CC([gcc-12 gcc12 gcc-11 gcc11 gcc-10 gcc10 egcc gcc clang])
 AC_MSG_NOTICE([Compiler: $CC])
 AC_PROG_MAKE_SET
 AC_LANG([C])
@@ -37,7 +37,7 @@ if test `uname -o` = "Msys"; then
 else
 	dir="/usr"
 fi
-font=`find $dif -type f -iname freemono.otf`
+font=`find $dir -type f -iname freemono.otf`
 if test "x$font" = "x"; then
   font=`find $dir -type f -iname freemono.ttf`
 	if test "x$font" = "x"; then
