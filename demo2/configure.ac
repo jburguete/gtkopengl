@@ -8,6 +8,12 @@ AM_INIT_AUTOMAKE
 AC_MSG_NOTICE([Build: $build])
 AC_MSG_NOTICE([Host: $host])
 AC_MSG_NOTICE([Target: $target])
+haiku=0
+if test `uname -s` = "Haiku"; then
+	AC_MSG_NOTICE([Haiku])
+	haiku=1
+fi
+AC_SUBST(HAIKU, [$haiku])
 
 # Checks for programs
 AC_PROG_CC([gcc-12 gcc12 gcc-11 gcc11 gcc-10 gcc10 egcc gcc clang])
@@ -23,25 +29,36 @@ PKG_CHECK_MODULES([FREETYPE], [freetype2])
 AC_SEARCH_LIBS([glViewport], [GL opengl32], 
 	AC_MSG_NOTICE([OpenGL OK]),
 	AC_MSG_ERROR([OpenGL not found]))
-PKG_CHECK_MODULES([GLEW], [glew])
-PKG_CHECK_MODULES([GLUT], [freeglut], , [PKG_CHECK_MODULES([GLUT], [glut])])
+if test $haiku = 1; then
+	AC_MSG_NOTICE([Haiku])
+	AC_SUBST(GLEW_LIBS, "-lGLEW -lGLU")
+else
+	PKG_CHECK_MODULES([GLEW], [glew])
+	PKG_CHECK_MODULES([GLUT], [freeglut], ,
+		[PKG_CHECK_MODULES([GLUT], [glut])])
+fi
 PKG_CHECK_MODULES([GLFW], [glfw3])
 PKG_CHECK_MODULES([SDL], [sdl2])
-PKG_CHECK_MODULES([GTK4], [gtk4])
 PKG_CHECK_MODULES([GTK3], [gtk+-3.0])
+PKG_CHECK_MODULES([GTK4], [gtk4], AC_SUBST([gtk4], [1]),
+	[AC_SUBST([gtk4], [0])])
 
 # Check for font
 AC_MSG_NOTICE([Searching font...])
-if test `uname -o` = "Msys"; then
-	dir="/mingw64"
+if test $haiku = 1; then
+	font=/boot/system/data/fonts/ttfonts/NotoSansMono-Regular.ttf
 else
-	dir="/usr"
-fi
-font=`find $dir -type f -iname freemono.otf`
-if test "x$font" = "x"; then
-  font=`find $dir -type f -iname freemono.ttf`
+	if test `uname -o` = "Msys"; then
+		dir="/mingw64"
+	else
+		dir="/usr"
+	fi
+	font=`find $dir -type f -iname freemono.otf`
 	if test "x$font" = "x"; then
-		AC_MSG_ERROR([FreeMono font not found])
+	  font=`find $dir -type f -iname freemono.ttf`
+		if test "x$font" = "x"; then
+			AC_MSG_ERROR([FreeMono font not found])
+		fi
 	fi
 fi
 AC_MSG_NOTICE([Font: $font])
