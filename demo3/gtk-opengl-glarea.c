@@ -54,7 +54,7 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
   g_signal_connect (gtk_draw, "realize", (GCallback) glarea_realize, NULL);
   g_signal_connect (gtk_draw, "resize", (GCallback) glarea_resize, NULL);
   g_signal_connect (gtk_draw, "render", (GCallback) draw_render, NULL);
-  gtk_widget_show (GTK_WIDGET (gtk_window));
+  gtk_window_present (gtk_window);
 #else
   gtk_init (&argn, &argc);
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -81,7 +81,7 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
                             (GCallback) gtk_window_destroy, gtk_window);
   g_signal_connect_swapped (button_close, "clicked",
                             (GCallback) gtk_window_destroy, main_window);
-  gtk_widget_show (GTK_WIDGET (main_window));
+  gtk_window_present (main_window);
 #else
   main_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (main_window, "GTK");

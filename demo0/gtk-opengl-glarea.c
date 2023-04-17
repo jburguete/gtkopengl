@@ -68,7 +68,7 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
   g_signal_connect (gtk_draw, "realize", (GCallback) glarea_realize, NULL);
   g_signal_connect (gtk_draw, "resize", (GCallback) glarea_resize, NULL);
   g_signal_connect (gtk_draw, "render", (GCallback) draw_render, NULL);
-  gtk_widget_show (GTK_WIDGET (gtk_window));
+  gtk_window_present (gtk_window);
 #else
   gtk_init (&argn, &argc);
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);

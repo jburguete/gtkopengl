@@ -88,7 +88,7 @@ main (int argn, char **argc)
   gtk_window_set_child (gtk_window, GTK_WIDGET (button_close));
   g_signal_connect_swapped (button_close, "clicked",
                             (GCallback) gtk_window_destroy, gtk_window);
-  gtk_widget_show (GTK_WIDGET (gtk_window));
+  gtk_window_present (gtk_window);
 #else
   gtk_init (&argn, &argc);
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
