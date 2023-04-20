@@ -4,6 +4,7 @@ GLFW3 = gtk3-opengl-glfw
 SDL3 = gtk3-opengl-sdl
 GTK3 = gtk3-opengl-glarea
 ifeq (@gtk4@, 1)
+	FREEGLUT3 = gtk3-opengl-freeglut
 	FREEGLUT4 = gtk4-opengl-freeglut
 	GLFW4 = gtk4-opengl-glfw
 	SDL4 = gtk4-opengl-sdl

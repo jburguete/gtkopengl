@@ -12,6 +12,15 @@ haiku=0
 if test `uname -s` = "Haiku"; then
 	AC_MSG_NOTICE([Haiku])
 	haiku=1
+elif test `uname -s` = "NetBSD"; then
+	AC_MSG_NOTICE([NetBSD])
+	LDFLAGS="$LDFLAGS -L/usr/pkg/lib -L/usr/X11R7/lib"
+	CPPFLAGS="$CPPFLAGS -I/usr/X11R7/include"
+elif test `uname -s` = "Darwin"; then
+	AC_MSG_NOTICE([MacOS])
+	AC_MSG_NOTICE([Remember:])
+	AC_MSG_NOTICE("echo 'export PATH=''/usr/local/opt/llvm@13/bin:$PATH''' >> ./zshrc")
+	LDFLAGS="$LDFLAGS -L/System/Library/Frameworks -framework GLUT -framework OpenGL"
 fi
 AC_SUBST(HAIKU, [$haiku])
 
