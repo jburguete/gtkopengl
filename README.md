@@ -61,16 +61,16 @@ This software has been built and tested in the following operative systems:
 * Arch Linux
 * Debian 11 (Linux)
 * Devuan Linux 4
-* Dragonfly BSD 6.2.2
-* Fedora Linux 37
-* FreeBSD 13.1
+* Dragonfly BSD 6.4.0
+* Fedora Linux 38
+* FreeBSD 13.2
 * Gentoo Linux
 * Linux Mint DE 5
 * MacOS Big Sur + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10
-* NetBSD 9.2
-* OpenBSD 7.2
+* NetBSD 9.3
+* OpenBSD 7.3
 * OpenInidiana Hipster
 * OpenSUSE Linux 15.4
 * Ubuntu Linux 22.10
@@ -81,7 +81,7 @@ libraries and utilities. You can follow detailed instructions in
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
 tutorial.
 
-On NetBSD 9.2, to use the last GCC version, you have to do first on the
+On NetBSD 9.3, to use the last GCC version, you have to do first on the
 building terminal:
 > $ export PATH="/usr/pkg/gcc9/bin:$PATH"
 
@@ -89,7 +89,7 @@ To do permanent this change the following line can be added to the ".profile"
 file in the user root directory:
 > PATH="/usr/pkg/gcc9/bin:$PATH"
 
-On OpenBSD 7.0 you have to do first on the building terminal:
+On OpenBSD 7.3 you have to do first on the building terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 BUILDING INSTRUCTIONS
