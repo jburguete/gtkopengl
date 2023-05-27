@@ -16,6 +16,10 @@ elif test `uname -s` = "NetBSD"; then
 	AC_MSG_NOTICE([NetBSD])
 	LDFLAGS="$LDFLAGS -L/usr/pkg/lib -L/usr/X11R7/lib"
 	CPPFLAGS="$CPPFLAGS -I/usr/X11R7/include"
+elif test `uname -s` = "OpenBSD"; then
+	AC_MSG_NOTICE([OpenBSD])
+	LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
+	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
 elif test `uname -s` = "Darwin"; then
 	AC_MSG_NOTICE([MacOS])
 	AC_MSG_NOTICE([Remember:])
