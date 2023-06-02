@@ -47,7 +47,7 @@ static void
 glarea_resize (GtkGLArea * widget __attribute__((unused)),
                ///< OpenGL widget.
                int w,           ///< new widget width.
-	       int h)           ///< new widget height.
+               int h)           ///< new widget height.
 {
 
 #if DEBUG
@@ -95,7 +95,7 @@ glarea_realize ()
 int
 main (int argn __attribute__((unused)), ///< number of command-line arguments. 
       char **argc __attribute__((unused)))
-      ///< array of command-line arguments.
+  ///< array of command-line arguments.
 {
   GMainLoop *main_loop;
   main_loop = g_main_loop_new (NULL, 0);

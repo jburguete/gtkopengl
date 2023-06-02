@@ -12,8 +12,10 @@
 // OpenGL variables
 
 const GLfloat vertex_data[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.f, 0.5f };
+
 ///< vertex data for the triangle.
 const GLfloat green[] = { 0.f, 1.f, 0.f, };
+
 ///< green color.
 
 GLuint program;                 ///< OpenGL program.

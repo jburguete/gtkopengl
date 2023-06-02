@@ -64,7 +64,7 @@ static void
 glfw_resize (GLFWwindow * window __attribute__((unused)),
              ///< GLFW window.
              int w,             ///< new window width.
-	     int h)             ///< new window height.
+             int h)             ///< new window height.
 {
 
 #if DEBUG

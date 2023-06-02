@@ -218,7 +218,7 @@ sdl_free ()
 int
 main (int argn __attribute__((unused)), ///< number of command-line arguments. 
       char **argc __attribute__((unused)))
-      ///< array of command-line arguments.
+  ///< array of command-line arguments.
 {
   if (!sdl_init ())
     return 4;
