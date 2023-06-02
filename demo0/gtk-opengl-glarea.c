@@ -1,3 +1,33 @@
+/**
+ * \file gtk-opengl-glarea.c
+ * \brief Source file with functions and variables to draw a triangle with
+ *   OpenGL and GTK.
+ * \author Javier Burguete Tolosa.
+ * \date 2022-2023.
+ * \license BSD-2-Clause.
+ */
+
+/*
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 #include <stdio.h>
 #include <glib.h>
 #include <GL/glew.h>
@@ -5,13 +35,19 @@
 #include "config.h"
 #include "draw.h"
 
-// Windows
 GtkWindow *gtk_window;
+///< graphic window.
 GtkGLArea *gtk_draw = NULL;
+///< OpenGL widget.
 
-// GTK resize
+/**
+ * GTK resize function.
+ */
 static void
-glarea_resize (GtkGLArea * widget __attribute__((unused)), int w, int h)
+glarea_resize (GtkGLArea * widget __attribute__((unused)),
+               ///< OpenGL widget.
+               int w,           ///< new widget width.
+	       int h)           ///< new widget height.
 {
 
 #if DEBUG
@@ -31,7 +67,9 @@ glarea_resize (GtkGLArea * widget __attribute__((unused)), int w, int h)
 
 }
 
-// GTK realize
+/**
+ * GTK realize function.
+ */
 static void
 glarea_realize ()
 {
@@ -49,9 +87,15 @@ glarea_realize ()
 
 }
 
-// Main function
+/**
+ * Main function.
+ *
+ * \return exit status.
+ */
 int
-main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
+main (int argn __attribute__((unused)), ///< number of command-line arguments. 
+      char **argc __attribute__((unused)))
+      ///< array of command-line arguments.
 {
   GMainLoop *main_loop;
   main_loop = g_main_loop_new (NULL, 0);

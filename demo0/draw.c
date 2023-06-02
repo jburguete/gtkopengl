@@ -1,22 +1,35 @@
+/**
+ * \file draw.c
+ * \brief Source file with functions and variables for initializing, rendering,
+ *   and freeing related resources to draw a triangle with OpenGL.
+ * \copyright Copyright 2022-2023, Javier Burguete Tolosa. All rights reserved.
+ */
 #include <stdio.h>
 #include <GL/glew.h>
 #include "config.h"
 #include "draw.h"
 
 // OpenGL variables
+
 const GLfloat vertex_data[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.f, 0.5f };
+///< vertex data for the triangle.
 const GLfloat green[] = { 0.f, 1.f, 0.f, };
+///< green color.
 
-GLuint program;
-GLint in_position;
-GLint uniform_color;
-GLuint vertex_array_id;
-GLuint vertex_buffer;
+GLuint program;                 ///< OpenGL program.
+GLint in_position;              ///< attribute location for position.
+GLint uniform_color;            ///< uniform location for color.
+GLuint vertex_array_id;         ///< vertex array object ID.
+GLuint vertex_buffer;           ///< vertex buffer object ID.
 
-unsigned int window_width = MINIMUM_WIDTH;
-unsigned int window_height = MINIMUM_HEIGHT;
+unsigned int window_width = MINIMUM_WIDTH;      ///< window width.
+unsigned int window_height = MINIMUM_HEIGHT;    ///< window heigth.
 
-// Init draw
+/**
+ * Initializes the draw resources.
+ *
+ * \return 1 if successful, 0 otherwise.
+ */
 int
 draw_init ()
 {
@@ -134,7 +147,9 @@ end:
   return 0;
 }
 
-// Render draw
+/**
+ * Renders the draw scene.
+ */
 void
 draw_render ()
 {
@@ -161,7 +176,9 @@ draw_render ()
 
 }
 
-// Free draw
+/**
+ * Free the draw resources.
+ */
 void
 draw_free ()
 {
