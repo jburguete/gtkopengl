@@ -88,6 +88,11 @@ static int
 glfw_init ()
 {
   const char *msg;
+
+#if DEBUG
+  fprintf (stderr, "glfw_init: start\n");
+#endif
+
   if (!glfwInit ())
     {
       msg = "Unable to init GLFW";
@@ -108,7 +113,7 @@ glfw_init ()
   glViewport (0, 0, window_width, window_height);
 
 #if DEBUG
-  fprintf (stderr, "glfw_resize: end on success\n");
+  fprintf (stderr, "glfw_init: end on success\n");
 #endif
 
   return 1;
@@ -116,7 +121,7 @@ glfw_init ()
 end:
 
 #if DEBUG
-  fprintf (stderr, "glfw_resize: end on error\n");
+  fprintf (stderr, "glfw_init: end on error\n");
 #endif
 
   puts (msg);

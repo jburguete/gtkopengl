@@ -152,12 +152,12 @@ end:
 static void
 sdl_loop ()
 {
+  SDL_Event event[1];
 
 #if DEBUG
   fprintf (stderr, "sdl_loop: start\n");
 #endif
 
-  SDL_Event event[1];
   sdl_render ();
   while (1)
     {

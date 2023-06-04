@@ -1,3 +1,33 @@
+/**
+ * \file gtk-opengl-glfw.c
+ * \brief Source file with functions and variables to draw a triangle with
+ *   OpenGL and GLFW.
+ * \author Javier Burguete Tolosa.
+ * \date 2022-2023.
+ * \license BSD-2-Clause.
+ */
+
+/*
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 #include <stdio.h>
 #include <glib.h>
 #include <GL/glew.h>
@@ -10,8 +40,11 @@
 GtkWindow *gtk_window;
 GdkGLContext *gl_context;
 GLFWwindow *glfw_window = NULL;
+///< GLFW window.
 
-// GLFW render function
+/**
+ * GLFW render function.
+ */
 static void
 glfw_render ()
 {
@@ -29,13 +62,18 @@ glfw_render ()
 
 }
 
-// Resize GLFW window
+/**
+ * Resize GLFW window.
+ */
 static void
-glfw_resize (GLFWwindow * window __attribute__((unused)), int w, int h)
+glfw_resize (GLFWwindow * window __attribute__((unused)),
+             ///< GLFW window.
+             int w,             ///< new window width.
+             int h)             ///< new window height.
 {
 
 #if DEBUG
-  fprintf (stderr, "glfw_realize: start\n");
+  fprintf (stderr, "glfw_resize: start\n");
 #endif
 
   window_width = w;
@@ -43,12 +81,14 @@ glfw_resize (GLFWwindow * window __attribute__((unused)), int w, int h)
   glViewport (0, 0, w, h);
 
 #if DEBUG
-  fprintf (stderr, "glfw_realize: end\n");
+  fprintf (stderr, "glfw_resize: end\n");
 #endif
 
 }
 
-// Init GLFW
+/**
+ * Init GLFW.
+ */
 static int
 glfw_init ()
 {
@@ -93,7 +133,9 @@ end:
   return 0;
 }
 
-// GLFW loop
+/**
+ * GLFW loop.
+ */
 static void
 glfw_loop ()
 {
@@ -138,7 +180,9 @@ glfw_quit ()
 
 }
 
-// GLFW free
+/**
+ * GLFW free.
+ */
 static void
 glfw_free ()
 {
@@ -148,6 +192,7 @@ glfw_free ()
 #endif
 
   draw_free ();
+  glfwDestroyWindow (glfw_window);
   glfwTerminate ();
 
 #if DEBUG
@@ -156,7 +201,11 @@ glfw_free ()
 
 }
 
-// Main function
+/**
+ * Main function.
+ *
+ * \return exit status.
+ */
 int
 main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 {
@@ -195,6 +244,8 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 
   // Main loop
   glfw_loop ();
+
+  // Free resources
   glfw_free ();
   return 0;
 }

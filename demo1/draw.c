@@ -1,22 +1,60 @@
+/**
+ * \file draw.c
+ * \brief Source file with functions and variables for initializing, rendering,
+ *   and freeing related resources to draw a triangle with OpenGL.
+ * \author Javier Burguete Tolosa.
+ * \date 2022-2023.
+ * \license BSD-2-Clause.
+ */
+
+/*
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 #include <stdio.h>
 #include <GL/glew.h>
 #include "config.h"
 #include "draw.h"
 
 // OpenGL variables
+
+///> vertex data for the triangle.
 const GLfloat vertex_data[] = { -0.5f, -0.5f, 0.5f, -0.5f, 0.f, 0.5f };
+
+///> green color.
 const GLfloat green[] = { 0.f, 1.f, 0.f, };
 
-GLuint program;
-GLint in_position;
-GLint uniform_color;
-GLuint vertex_array_id;
-GLuint vertex_buffer;
+GLuint program;                 ///< OpenGL program.
+GLint in_position;              ///< attribute location for position.
+GLint uniform_color;            ///< uniform location for color.
+GLuint vertex_array_id;         ///< vertex array object ID.
+GLuint vertex_buffer;           ///< vertex buffer object ID.
 
-unsigned int window_width = MINIMUM_WIDTH;
-unsigned int window_height = MINIMUM_HEIGHT;
+unsigned int window_width = MINIMUM_WIDTH;      ///< window width.
+unsigned int window_height = MINIMUM_HEIGHT;    ///< window heigth.
 
-// Init draw
+/**
+ * Initializes the draw resources.
+ *
+ * \return 1 if successful, 0 otherwise.
+ */
 int
 draw_init ()
 {
@@ -114,11 +152,10 @@ draw_init ()
   glBufferData (GL_ARRAY_BUFFER, sizeof (vertex_data), vertex_data,
                 GL_STATIC_DRAW);
 
-
   // Ending on success
 
 #if DEBUG
-  fprintf (stderr, "draw_init: end on sucess\n");
+  fprintf (stderr, "draw_init: end on success\n");
 #endif
 
   return 1;
@@ -126,16 +163,18 @@ draw_init ()
 end:
 
   // Ending on error
-  puts (error_msg);
 
 #if DEBUG
   fprintf (stderr, "draw_init: end on error\n");
 #endif
 
+  puts (error_msg);
   return 0;
 }
 
-// Render draw
+/**
+ * Renders the draw scene.
+ */
 void
 draw_render ()
 {
@@ -162,7 +201,9 @@ draw_render ()
 
 }
 
-// Free draw
+/**
+ * Free the draw resources.
+ */
 void
 draw_free ()
 {
