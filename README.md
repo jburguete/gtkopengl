@@ -59,7 +59,7 @@ You can install all required utilities and libraries using the instructions of
 
 This software has been built and tested in the following operative systems:
 * Arch Linux
-* Debian 11 (Linux)
+* Debian 12 (Linux)
 * Devuan Linux 4
 * Dragonfly BSD 6.4.0
 * Fedora Linux 38
@@ -68,12 +68,12 @@ This software has been built and tested in the following operative systems:
 * Linux Mint DE 5
 * MacOS Monterey + Homebrew
 * Manjaro Linux
-* Microsoft Windows 10
+* Microsoft Windows 10 + MSYS2
 * NetBSD 9.3
 * OpenBSD 7.3
 * OpenInidiana Hipster
 * OpenSUSE Linux 15.4
-* Ubuntu Linux 22.10
+* Ubuntu Linux 23.04
 
 On Microsoft Windows systems you have to install
 [MSYS2](http://sourceforge.net/projects/msys2) and the required
