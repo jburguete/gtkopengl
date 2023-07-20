@@ -67,13 +67,13 @@ operativos:
 * FreeBSD 13.2
 * Gentoo Linux
 * Linux Mint DE 5
-* MacOS Monterey + Homebrew
+* MacOS Ventura + Homebrew
 * Manjaro Linux
 * Microsoft Windows 10 + MSYS2
 * NetBSD 9.3
 * OpenBSD 7.3
 * OpenInidiana Hipster
-* OpenSUSE Linux 15.4
+* OpenSUSE Linux 15.5
 * Ubuntu Linux 23.04
 
 En sistemas Microsoft Windows hay que instalar
