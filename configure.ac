@@ -19,7 +19,7 @@ elif test `uname -s` = "NetBSD"; then
 elif test `uname -s` = "Darwin"; then
 	AC_MSG_NOTICE([MacOS])
 	AC_MSG_NOTICE([Remember:])
-	AC_MSG_NOTICE("echo 'export PATH=''/usr/local/opt/llvm@13/bin:$PATH''' >> ./zshrc")
+	AC_MSG_NOTICE("echo 'export PATH=''/usr/local/opt/llvm/bin:$PATH''' >> ./zshrc")
 	LDFLAGS="$LDFLAGS -L/System/Library/Frameworks -framework GLUT -framework OpenGL"
 fi
 AC_SUBST(HAIKU, [$haiku])
@@ -33,6 +33,8 @@ PKG_PROG_PKG_CONFIG
 
 # Checks for libraries
 PKG_CHECK_MODULES([GLIB], [glib-2.0])
+PKG_CHECK_MODULES([PNG], [libpng])
+PKG_CHECK_MODULES([FREETYPE], [freetype2])
 AC_SEARCH_LIBS([glViewport], [GL opengl32], 
 	AC_MSG_NOTICE([OpenGL OK]),
 	AC_MSG_ERROR([OpenGL not found]))
@@ -50,6 +52,27 @@ PKG_CHECK_MODULES([GTK3], [gtk+-3.0])
 PKG_CHECK_MODULES([GTK4], [gtk4], AC_SUBST([gtk4], [1]),
 	[AC_SUBST([gtk4], [0])])
 
+# Check for font
+AC_MSG_NOTICE([Searching font...])
+if test $haiku = 1; then
+	font=/boot/system/data/fonts/ttfonts/NotoSansMono-Regular.ttf
+else
+	if test `uname -o` = "Msys"; then
+		dir="/mingw64"
+	else
+		dir="/usr"
+	fi
+	font=`find $dir -type f -iname freemono.otf`
+	if test "x$font" = "x"; then
+	  font=`find $dir -type f -iname freemono.ttf`
+		if test "x$font" = "x"; then
+			AC_MSG_ERROR([FreeMono font not found])
+		fi
+	fi
+fi
+AC_MSG_NOTICE([Font: $font])
+AC_SUBST(FONT, "-DFONT=\\\"$font\\\"")
+
 # Final output
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([demo0/Makefile demo1/Makefile demo2/Makefile demo3/Makefile])
 AC_OUTPUT

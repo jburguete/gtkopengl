@@ -8,12 +8,12 @@ if test -x "`command -v gmake`"; then
 else
 	MAKE=make
 fi
+aclocal
+autoconf
+automake --add-missing
+./configure
 for i in demo0 demo1 demo2 demo3; do
   pushd $i
-  aclocal
-  autoconf
-  automake --add-missing
-  ./configure
   ${MAKE}
   popd
 done
