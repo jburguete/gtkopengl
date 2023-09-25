@@ -13,7 +13,7 @@ autoconf
 automake --add-missing
 ./configure
 for i in demo0 demo1 demo2 demo3; do
-  pushd $i
-  ${MAKE}
-  popd
+	pushd $i
+	${MAKE}
+	popd
 done
