@@ -1,19 +1,27 @@
 .PHONY: strip clean
 
-GLFW3 = gtk3-opengl-glfw
-SDL3 = gtk3-opengl-sdl
-GTK3 = gtk3-opengl-glarea
 ifeq (@gtk4@, 1)
-	FREEGLUT3 = gtk3-opengl-freeglut
-	FREEGLUT4 = gtk4-opengl-freeglut
-	GLFW4 = gtk4-opengl-glfw
-	SDL4 = gtk4-opengl-sdl
-	GTK4 = gtk4-opengl-glarea
-else
-ifeq (@HAIKU@, 0)
-	FREEGLUT3 = gtk3-opengl-freeglut
+ifeq (@freeglut@, 1)
+FREEGLUT4 = gtk4-opengl-freeglut
 endif
+ifeq (@glfw@, 1)
+GLFW4 = gtk4-opengl-glfw
 endif
+ifeq (@sdl@, 1)
+SDL4 = gtk4-opengl-sdl
+endif
+GTK4 = gtk4-opengl-glarea
+endif
+ifeq (@freeglut@, 1)
+FREEGLUT3 = gtk3-opengl-freeglut
+endif
+ifeq (@glfw@, 1)
+GLFW3 = gtk3-opengl-glfw
+endif
+ifeq (@sdl@, 1)
+SDL3 = gtk3-opengl-sdl
+endif
+GTK3 = gtk3-opengl-glarea
 
 FLAGS = @CFLAGS@ -Os -Wall -Wextra @FONT@
 CFLAGS1 = @PNG_CFLAGS@ @FREETYPE_CFLAGS@ @GLIB_CFLAGS@ @GLEW_CFLAGS@ \
@@ -37,6 +45,7 @@ ALL = $(FREEGLUT3) $(GLFW3) $(SDL3) $(GTK3) \
 	$(FREEGLUT4) $(GLFW4) $(SDL4) $(GTK4)
 
 all: $(ALL)
+	echo $(ALL)
 
 $(FREEGLUT3): gtk-opengl-freeglut.c $(SRC) $(HDR) Makefile
 	$(CC) @GTK3_CFLAGS@ $(CFLAGS1) gtk-opengl-freeglut.c $(SRC) \

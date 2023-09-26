@@ -41,16 +41,17 @@ AC_SEARCH_LIBS([glViewport], [GL opengl32],
 if test $haiku = 1; then
 	AC_MSG_NOTICE([Haiku])
 	AC_SUBST(GLEW_LIBS, "-lGLEW -lGLU")
+	AC_SUBST([freeglut], [0])
 else
 	PKG_CHECK_MODULES([GLEW], [glew])
-	PKG_CHECK_MODULES([GLUT], [freeglut], ,
-		[PKG_CHECK_MODULES([GLUT], [glut])])
+	PKG_CHECK_MODULES([GLUT], [freeglut glut], AC_SUBST([freeglut], [1]),
+		AC_SUBST([freeglut], [0]))
 fi
-PKG_CHECK_MODULES([GLFW], [glfw3])
-PKG_CHECK_MODULES([SDL], [sdl2])
+PKG_CHECK_MODULES([GLFW], [glfw3], AC_SUBST([glfw], [1]), AC_SUBST([glfw], [0]))
+PKG_CHECK_MODULES([SDL], [sdl2], AC_SUBST([sdl], [1]), AC_SUBST([sdl], [0]))
 PKG_CHECK_MODULES([GTK3], [gtk+-3.0])
 PKG_CHECK_MODULES([GTK4], [gtk4], AC_SUBST([gtk4], [1]),
-	[AC_SUBST([gtk4], [0])])
+	AC_SUBST([gtk4], [0]))
 
 # Check for font
 AC_MSG_NOTICE([Searching font...])

@@ -1,15 +1,15 @@
 .PHONY: strip clean
 
-GTK3 = gtk3-opengl-glarea
 ifeq (@gtk4@, 1)
-	FREEGLUT3 = gtk3-opengl-freeglut
-	FREEGLUT4 = gtk4-opengl-freeglut
-	GTK4 = gtk4-opengl-glarea
-else
-ifeq (@HAIKU@, 0)
-	FREEGLUT3 = gtk3-opengl-freeglut
+ifeq (@freeglut@, 1)
+FREEGLUT4 = gtk4-opengl-freeglut
 endif
+GTK4 = gtk4-opengl-glarea
 endif
+ifeq (@freeglut@, 1)
+FREEGLUT3 = gtk3-opengl-freeglut
+endif
+GTK3 = gtk3-opengl-glarea
 
 FLAGS = @CFLAGS@ -Os -Wall -Wextra
 CFLAGS1 = @PNG_CFLAGS@ @GLIB_CFLAGS@ @GLEW_CFLAGS@ @GLUT_CFLAGS@ $(FLAGS)
@@ -23,6 +23,7 @@ ALL = $(FREEGLUT3) $(GTK3) \
 	$(FREEGLUT4) $(GTK4)
 
 all: $(ALL)
+	echo $(ALL)
 
 $(FREEGLUT3): gtk-opengl-freeglut.c $(SRC) $(HDR) Makefile
 	$(CC) @GTK3_CFLAGS@ $(CFLAGS1) gtk-opengl-freeglut.c $(SRC) \

@@ -1,19 +1,27 @@
 .PHONY: strip clean
 
-GLFW3 = gtk3-opengl-glfw
-SDL3 = gtk3-opengl-sdl
-GTK3 = gtk3-opengl-glarea
 ifeq (@gtk4@, 1)
-	FREEGLUT3 = gtk3-opengl-freeglut
-	FREEGLUT4 = gtk4-opengl-freeglut
-	GLFW4 = gtk4-opengl-glfw
-	SDL4 = gtk4-opengl-sdl
+	ifeq (@freeglut@, 1)
+		FREEGLUT4 = gtk4-opengl-freeglut
+	endif
+	ifeq (@glfw@, 1)
+		GLFW4 = gtk4-opengl-glfw
+	endif
+	ifeq (@sdl@, 1)
+		SDL4 = gtk4-opengl-sdl
+	endif
 	GTK4 = gtk4-opengl-glarea
-else
-ifeq (@HAIKU@, 0)
-	FREEGLUT3 = gtk3-opengl-freeglut
 endif
+ifeq (@freeglut@, 1)
+FREEGLUT3 = gtk3-opengl-freeglut
 endif
+ifeq (@glfw@, 1)
+GLFW3 = gtk3-opengl-glfw
+endif
+ifeq (@sdl@, 1)
+SDL3 = gtk3-opengl-sdl
+endif
+GTK3 = gtk3-opengl-glarea
 
 FLAGS = @CFLAGS@ -Os -Wall -Wextra
 CFLAGS1 = @GLUT_CFLAGS@ @GLEW_CFLAGS@ $(FLAGS)
