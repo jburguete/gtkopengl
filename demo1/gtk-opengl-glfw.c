@@ -36,6 +36,13 @@
 #include "config.h"
 #include "draw.h"
 
+#if GTK_MAJOR_VERSION > 3
+#define TITLE "GTK4"
+#else
+#define TITLE "GTK3"
+#endif
+///< windows title.
+
 // Windows
 GtkWindow *gtk_window;
 GdkGLContext *gl_context;
@@ -104,7 +111,7 @@ glfw_init ()
       goto end;
     }
   glfw_window
-    = glfwCreateWindow (window_width, window_height, "GLFW", NULL, NULL);
+    = glfwCreateWindow (window_width, window_height, TITLE "-GLFW", NULL, NULL);
   if (!glfw_window)
     {
       msg = "Unable to open the GLFW window";
@@ -221,7 +228,7 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 #if GTK_MAJOR_VERSION > 3
   gtk_init ();
   gtk_window = (GtkWindow *) gtk_window_new ();
-  gtk_window_set_title (gtk_window, "GTK");
+  gtk_window_set_title (gtk_window, TITLE);
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_window_set_child (gtk_window, GTK_WIDGET (button_close));
   g_signal_connect_swapped (button_close, "clicked",
@@ -230,7 +237,7 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 #else
   gtk_init (&argn, &argc);
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (gtk_window, "GTK");
+  gtk_window_set_title (gtk_window, TITLE);
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_container_add (GTK_CONTAINER (gtk_window), GTK_WIDGET (button_close));
   g_signal_connect_swapped (button_close, "clicked",

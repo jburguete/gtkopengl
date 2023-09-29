@@ -35,6 +35,13 @@
 #include "config.h"
 #include "draw.h"
 
+#if GTK_MAJOR_VERSION > 3
+#define TITLE "GTK4"
+#else
+#define TITLE "GTK3"
+#endif
+///< windows title.
+
 // Windows
 GtkWindow *gtk_window, *main_window;
 GtkGLArea *gtk_draw;
@@ -106,7 +113,7 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
 #if GTK_MAJOR_VERSION > 3
   gtk_init ();
   gtk_window = (GtkWindow *) gtk_window_new ();
-  gtk_window_set_title (gtk_window, "GtkGLArea");
+  gtk_window_set_title (gtk_window, TITLE "-GtkGLArea");
   gtk_draw = (GtkGLArea *) gtk_gl_area_new ();
   gtk_widget_set_size_request (GTK_WIDGET (gtk_draw), MINIMUM_WIDTH,
                                MINIMUM_HEIGHT);
@@ -120,7 +127,7 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
 #else
   gtk_init (&argn, &argc);
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (gtk_window, "GtkGLArea");
+  gtk_window_set_title (gtk_window, TITLE "-GtkGLArea");
   gtk_draw = (GtkGLArea *) gtk_gl_area_new ();
   gtk_widget_set_size_request (GTK_WIDGET (gtk_draw), MINIMUM_WIDTH,
                                MINIMUM_HEIGHT);
@@ -136,7 +143,7 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
   // Main window
 #if GTK_MAJOR_VERSION > 3
   main_window = (GtkWindow *) gtk_window_new ();
-  gtk_window_set_title (main_window, "GTK");
+  gtk_window_set_title (main_window, TITLE);
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_window_set_child (main_window, GTK_WIDGET (button_close));
   g_signal_connect_swapped (main_window, "destroy",
@@ -146,7 +153,7 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
   gtk_window_present (main_window);
 #else
   main_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (main_window, "GTK");
+  gtk_window_set_title (main_window, TITLE);
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_container_add (GTK_CONTAINER (main_window), GTK_WIDGET (button_close));
   g_signal_connect_swapped (main_window, "destroy",
