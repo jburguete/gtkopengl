@@ -63,7 +63,7 @@ if test $haiku = 1; then
 	font=/boot/system/data/fonts/ttfonts/NotoSansMono-Regular.ttf
 else
 	if test `uname -o` = "Msys"; then
-		dir="/mingw64"
+		dir="/ucrt64"
 	else
 		dir="/usr"
 	fi
