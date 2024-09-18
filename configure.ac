@@ -29,7 +29,7 @@ fi
 AC_SUBST(HAIKU, [$haiku])
 
 # Checks for programs
-AC_PROG_CC([gcc-13 gcc13 gcc-12 gcc12 gcc-11 gcc11 egcc gcc clang])
+AC_PROG_CC([gcc-14 gcc14 gcc-13 gcc13 gcc-12 gcc12 gcc-11 gcc11 egcc gcc clang])
 AC_MSG_NOTICE([Compiler: $CC])
 AC_PROG_MAKE_SET
 AC_LANG([C])

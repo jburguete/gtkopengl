@@ -45,7 +45,7 @@
 
 // Windows
 GtkWindow *gtk_window;
-GdkGLContext *gl_context;
+GdkGLContext *gl_context = NULL;
 SDL_Window *sdl_window = NULL;  ///< SDL window.
 SDL_GLContext sdl_context = NULL;       ///< SDL OpenGL context.
 
@@ -178,7 +178,7 @@ sdl_loop ()
         gdk_gl_context_make_current (gl_context);
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
-      SDL_RaiseWindow (sdl_window);
+      // SDL_RaiseWindow (sdl_window);
       SDL_GL_MakeCurrent (sdl_window, sdl_context);
       while (SDL_PollEvent (event))
         {
