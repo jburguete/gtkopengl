@@ -146,7 +146,7 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 #if GTK_MAJOR_VERSION > 3
   gtk_init ();
   gtk_window = (GtkWindow *) gtk_window_new ();
-  gtk_window_set_title (gtk_window, "GTK");
+  gtk_window_set_title (gtk_window, "GTK4");
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_window_set_child (gtk_window, GTK_WIDGET (button_close));
   g_signal_connect_swapped (button_close, "clicked",
@@ -155,7 +155,7 @@ main (int argn __attribute__((unused)), char **argc __attribute__((unused)))
 #else
   gtk_init (&argn, &argc);
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (gtk_window, "GTK");
+  gtk_window_set_title (gtk_window, "GTK3");
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_container_add (GTK_CONTAINER (gtk_window), GTK_WIDGET (button_close));
   g_signal_connect_swapped (button_close, "clicked",

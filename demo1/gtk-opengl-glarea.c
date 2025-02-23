@@ -136,7 +136,7 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
   // Main window
 #if GTK_MAJOR_VERSION > 3
   main_window = (GtkWindow *) gtk_window_new ();
-  gtk_window_set_title (main_window, "GTK");
+  gtk_window_set_title (main_window, "GTK4");
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_window_set_child (main_window, GTK_WIDGET (button_close));
   g_signal_connect_swapped (main_window, "destroy",
@@ -146,7 +146,7 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
   gtk_window_present (main_window);
 #else
   main_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (main_window, "GTK");
+  gtk_window_set_title (main_window, "GTK3");
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_container_add (GTK_CONTAINER (main_window), GTK_WIDGET (button_close));
   g_signal_connect_swapped (main_window, "destroy",
