@@ -16,6 +16,10 @@ elif test `uname -s` = "NetBSD"; then
 	AC_MSG_NOTICE([NetBSD])
 	LDFLAGS="$LDFLAGS -L/usr/pkg/lib -L/usr/X11R7/lib"
 	CPPFLAGS="$CPPFLAGS -I/usr/X11R7/include"
+elif test `uname -s` = "OpenBSD"; then
+	AC_MSG_NOTICE([OpenBSD])
+	LDFLAGS="$LDFLAGS -L/usr/X11R6/lib"
+	CPPFLAGS="$CPPFLAGS -I/usr/X11R6/include"
 elif test `uname -s` = "Darwin"; then
 	AC_MSG_NOTICE([MacOS])
 	AC_MSG_NOTICE([Remember:])
@@ -25,7 +29,7 @@ fi
 AC_SUBST(HAIKU, [$haiku])
 
 # Checks for programs
-AC_PROG_CC([gcc-13 gcc13 gcc-12 gcc12 gcc-11 gcc11 egcc gcc clang])
+AC_PROG_CC([gcc-14 gcc14 gcc-13 gcc13 gcc-12 gcc12 gcc-11 gcc11 egcc gcc clang])
 AC_MSG_NOTICE([Compiler: $CC])
 AC_PROG_MAKE_SET
 AC_LANG([C])
@@ -59,7 +63,7 @@ if test $haiku = 1; then
 	font=/boot/system/data/fonts/ttfonts/NotoSansMono-Regular.ttf
 else
 	if test `uname -o` = "Msys"; then
-		dir="/mingw64"
+		dir="/ucrt64"
 	else
 		dir="/usr"
 	fi

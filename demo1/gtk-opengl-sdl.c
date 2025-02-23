@@ -36,13 +36,18 @@
 #include "config.h"
 #include "draw.h"
 
+#if GTK_MAJOR_VERSION > 3
+#define TITLE "GTK4"
+#else
+#define TITLE "GTK3"
+#endif
+///< windows title.
+
 // Windows
 GtkWindow *gtk_window;
-GdkGLContext *gl_context;
-SDL_Window *sdl_window = NULL;
-///< SDL window.
-SDL_GLContext sdl_context = NULL;
-///< SDL OpenGL context.
+GdkGLContext *gl_context = NULL;
+SDL_Window *sdl_window = NULL;  ///< SDL window.
+SDL_GLContext sdl_context = NULL;       ///< SDL OpenGL context.
 
 /**
  * SDL render function.
@@ -118,7 +123,8 @@ sdl_init ()
       goto end;
     }
   sdl_window
-    = SDL_CreateWindow ("SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+    = SDL_CreateWindow (TITLE "-SDL",
+                        SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                         MINIMUM_WIDTH, MINIMUM_HEIGHT,
                         SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL);
   if (!sdl_window)
@@ -172,7 +178,7 @@ sdl_loop ()
         gdk_gl_context_make_current (gl_context);
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
-      SDL_RaiseWindow (sdl_window);
+      // SDL_RaiseWindow (sdl_window);
       SDL_GL_MakeCurrent (sdl_window, sdl_context);
       while (SDL_PollEvent (event))
         {
@@ -263,7 +269,7 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
 #if GTK_MAJOR_VERSION > 3
   gtk_init ();
   gtk_window = (GtkWindow *) gtk_window_new ();
-  gtk_window_set_title (gtk_window, "GTK4");
+  gtk_window_set_title (gtk_window, TITLE);
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_window_set_child (gtk_window, GTK_WIDGET (button_close));
   g_signal_connect_swapped (button_close, "clicked",
@@ -272,7 +278,7 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
 #else
   gtk_init (&argn, &argc);
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (gtk_window, "GTK3");
+  gtk_window_set_title (gtk_window, TITLE);
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_container_add (GTK_CONTAINER (gtk_window), GTK_WIDGET (button_close));
   g_signal_connect_swapped (button_close, "clicked",

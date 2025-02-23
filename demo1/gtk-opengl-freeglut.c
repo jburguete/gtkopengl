@@ -36,11 +36,17 @@
 #include "config.h"
 #include "draw.h"
 
+#if GTK_MAJOR_VERSION > 3
+#define TITLE "GTK4"
+#else
+#define TITLE "GTK3"
+#endif
+///< windows title.
+
 // Windows
 GtkWindow *gtk_window;
 GdkGLContext *gl_context;
-int glut_window;
-///< FreeGLUT window ID.
+int glut_window;                ///< FreeGLUT window ID.
 
 /**
  * Init FreeGLUT.
@@ -57,7 +63,7 @@ freeglut_init (int *argn,       ///< number of command line arguments.
   glutInit (argn, argc);
   glutInitDisplayMode (GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
   glutInitWindowSize (window_width, window_height);
-  glut_window = glutCreateWindow ("FreeGLUT");
+  glut_window = glutCreateWindow (TITLE "-FreeGLUT");
   glViewport (0, 0, window_width, window_height);
 
 #if DEBUG
@@ -177,7 +183,7 @@ main (int argn,                 ///< number of command line arguments.
 #if GTK_MAJOR_VERSION > 3
   gtk_init ();
   gtk_window = (GtkWindow *) gtk_window_new ();
-  gtk_window_set_title (gtk_window, "GTK4");
+  gtk_window_set_title (gtk_window, TITLE);
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_window_set_child (gtk_window, GTK_WIDGET (button_close));
   g_signal_connect_swapped (button_close, "clicked",
@@ -187,7 +193,7 @@ main (int argn,                 ///< number of command line arguments.
 #else
   gtk_init (&argn, &argc);
   gtk_window = (GtkWindow *) gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_title (gtk_window, "GTK3");
+  gtk_window_set_title (gtk_window, TITLE);
   button_close = (GtkButton *) gtk_button_new_with_mnemonic ("_Close");
   gtk_container_add (GTK_CONTAINER (gtk_window), GTK_WIDGET (button_close));
   g_signal_connect_swapped (button_close, "clicked",
