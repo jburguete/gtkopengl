@@ -6,7 +6,7 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_MODULE_H
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 
 #include "image.h"
 #include "text.h"
@@ -24,22 +24,34 @@ text_init (Text * text)         ///< Text struct data.
     "uniform vec4 color;"
     "out vec2 textcoord;"
     "void main ()"
-    "{" "gl_FragColor=vec4(1.f,1.f,1.f,texture2D(text,textcoord).a)*color;" "}";
+    "{gl_FragColor=vec4(1.,1.,1.,texture2D(text,textcoord).a)*color;}";
   const char *vs_source =
     "in vec4 position;"
     "out vec2 textcoord;"
-    "void main ()"
-    "{" "gl_Position=vec4(position.xy,0.f,1.f);" "textcoord=position.zw;" "}";
+    "void main (){gl_Position=vec4(position.xy,0.,1.);textcoord=position.zw;}";
   const char *vertex_name = "position";
   const char *color_name = "color";
   const char *text_name = "text";
   // GLSL version
-  const char *version = "#version 120\n#define in attribute\n#define out varying\n";    // OpenGL 2.1
-  const char *fs_sources[2] = { version, fs_source };
-  const char *vs_sources[2] = { version, vs_source };
+  const char *version;
+  const char *fs_sources[2];
+  const char *vs_sources[2];
   const char *error_message;
   GLint k;
   GLuint vs, fs;
+
+  // Select shaders
+  if (strstr ((const char *) glGetString (GL_VERSION), "OpenGL ES"))
+    version = "#version 100\n#define in attribute\n#define out varying\n"
+	      "precision mediump float;";
+  else if (epoxy_gl_version () >= 33)
+    version = "#version 330 core\n";
+  else
+    version = "#version 120\n#define in attribute\n#define out varying\n";
+  fs_sources[0] = version;
+  fs_sources[1] = fs_source;
+  vs_sources[0] = version;
+  vs_sources[1] = vs_source;
 
   fs = glCreateShader (GL_FRAGMENT_SHADER);
   glShaderSource (fs, 2, fs_sources, NULL);

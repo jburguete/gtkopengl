@@ -3,7 +3,7 @@
  * \brief Header file with functions and variables for initializing, rendering,
  *   and freeing related resources to draw a triangle with OpenGL.
  * \author Javier Burguete Tolosa.
- * \date 2022-2023.
+ * \date 2022-2025.
  * \license BSD-2-Clause.
  */
 

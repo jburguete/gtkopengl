@@ -3,7 +3,7 @@
  * \brief Source file with functions and variables to draw a triangle with
  *   OpenGL and GLFW.
  * \author Javier Burguete Tolosa.
- * \date 2022-2023.
+ * \date 2022-2025.
  * \license BSD-2-Clause.
  */
 
@@ -33,7 +33,7 @@
 #include <png.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 #include <GLFW/glfw3.h>
 #include <gtk/gtk.h>
 

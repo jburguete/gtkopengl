@@ -2,7 +2,7 @@
  * \file config.h
  * \brief Header file with configuration definitions.
  * \author Javier Burguete Tolosa.
- * \date 2022-2023.
+ * \date 2022-2025.
  * \license BSD-2-Clause.
  */
 

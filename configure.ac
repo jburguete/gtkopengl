@@ -42,15 +42,7 @@ PKG_CHECK_MODULES([FREETYPE], [freetype2])
 AC_SEARCH_LIBS([glViewport], [GL opengl32], 
 	AC_MSG_NOTICE([OpenGL OK]),
 	AC_MSG_ERROR([OpenGL not found]))
-if test $haiku = 1; then
-	AC_MSG_NOTICE([Haiku])
-	AC_SUBST(GLEW_LIBS, "-lGLEW -lGLU")
-	AC_SUBST([freeglut], [0])
-else
-	PKG_CHECK_MODULES([GLEW], [glew])
-	PKG_CHECK_MODULES([GLUT], [freeglut glut], AC_SUBST([freeglut], [1]),
-		AC_SUBST([freeglut], [0]))
-fi
+PKG_CHECK_MODULES([EPOXY], [epoxy])
 PKG_CHECK_MODULES([GLFW], [glfw3], AC_SUBST([glfw], [1]), AC_SUBST([glfw], [0]))
 PKG_CHECK_MODULES([SDL], [sdl2], AC_SUBST([sdl], [1]), AC_SUBST([sdl], [0]))
 PKG_CHECK_MODULES([GTK3], [gtk+-3.0])
@@ -69,7 +61,7 @@ else
 	fi
 	font=`find $dir -type f -iname freemono.otf`
 	if test "x$font" = "x"; then
-	  font=`find $dir -type f -iname freemono.ttf`
+		font=`find $dir -type f -iname freemono.ttf`
 		if test "x$font" = "x"; then
 			AC_MSG_ERROR([FreeMono font not found])
 		fi

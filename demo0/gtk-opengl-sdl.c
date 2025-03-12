@@ -3,7 +3,7 @@
  * \brief Source file with functions and variables to draw a triangle with
  *   OpenGL and SDL.
  * \author Javier Burguete Tolosa.
- * \date 2022-2023.
+ * \date 2022-2025.
  * \license BSD-2-Clause.
  */
 
@@ -29,7 +29,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 #include <stdio.h>
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 #include <SDL.h>
 #include "config.h"
 #include "draw.h"
