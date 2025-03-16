@@ -71,5 +71,5 @@ AC_MSG_NOTICE([Font: $font])
 AC_SUBST(FONT, "-DFONT=\\\"$font\\\"")
 
 # Final output
-AC_CONFIG_FILES([demo0/Makefile demo1/Makefile demo2/Makefile demo3/Makefile])
+AC_CONFIG_FILES([demo0/Makefile demo1/Makefile demo2/Makefile])
 AC_OUTPUT
