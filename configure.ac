@@ -59,9 +59,9 @@ else
 	else
 		dir="/usr"
 	fi
-	font=`find $dir -type f -iname freemono.otf`
+	font=`find $dir -type f -iname freemono.otf -print -quit`
 	if test "x$font" = "x"; then
-		font=`find $dir -type f -iname freemono.ttf`
+		font=`find $dir -type f -iname freemono.ttf -print -quit`
 		if test "x$font" = "x"; then
 			AC_MSG_ERROR([FreeMono font not found])
 		fi
