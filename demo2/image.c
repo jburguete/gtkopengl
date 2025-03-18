@@ -3,9 +3,54 @@
 #include <string.h>
 #include <glib.h>
 #include <png.h>
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 
 #include "image.h"
+
+const char *fs_texture_source_v3 =
+  "#version 330 core\n"
+  "in vec2 t_position;"
+  "out vec4 fcolor;"
+  "uniform sampler2D texture_image;"
+  "void main()" "{fcolor=texture(texture_image,t_position);}";
+const char *vs_texture_source_v3 =
+  "#version 330 core\n"
+  "in vec2 position;"
+  "in vec2 texture_position;"
+  "out vec2 t_position;"
+  "uniform mat4 matrix;"
+  "void main()"
+  "{gl_Position=matrix*vec4(position,0.,1.);"
+  "t_position=texture_position;}";
+const char *fs_texture_source_v2 =
+  "#version 120\n"
+  "varying vec2 t_position;"
+  "uniform sampler2D texture_image;"
+  "void main()" "{gl_FragColor=texture2D(texture_image,t_position);}";
+const char *vs_texture_source_v2 =
+  "#version 120\n"
+  "attribute vec2 position;"
+  "attribute vec2 texture_position;"
+  "varying vec2 t_position;"
+  "uniform mat4 matrix;"
+  "void main()"
+  "{gl_Position=matrix*vec4(position,0.,1.);"
+  "t_position=texture_position;}";
+const char *fs_texture_source_es =
+  "#version 100\n"
+  "precision mediump float;"
+  "varying vec2 t_position;"
+  "uniform sampler2D texture_image;"
+  "void main()" "{gl_FragColor=texture2D(texture_image,t_position);}";
+const char *vs_texture_source_es =
+  "#version 100\n"
+  "attribute vec2 position;"
+  "attribute vec2 texture_position;"
+  "varying vec2 t_position;"
+  "uniform mat4 matrix;"
+  "void main()"
+  "{gl_Position=matrix*vec4(position,0.,1.);"
+  "t_position=texture_position;}";
 
 /**
  * Function to read the image on a PNG file.
@@ -119,25 +164,12 @@ error1:
 int
 image_init (Image * image)      ///< Image struct.
 {
-  const char *fs_texture_source =
-    "out vec2 t_position;"
-    "uniform sampler2D texture_image;"
-    "void main()" "{gl_FragColor=texture2D(texture_image,t_position);}";
-  const char *vs_texture_source =
-    "in vec2 position;"
-    "in vec2 texture_position;"
-    "out vec2 t_position;"
-    "uniform mat4 matrix;"
-    "void main()"
-    "{gl_Position=matrix*vec4(position,0.f,1.f);"
-    "t_position=texture_position;}";
   const char *vertex_name = "position";
   const char *texture_name = "texture_image";
   const char *texture_position_name = "texture_position";
   const char *matrix_name = "matrix";
-  const char *version = "#version 120\n#define in attribute\n#define out varying\n";    // OpenGL 2.1
-  const char *vs_texture_sources[2] = { version, vs_texture_source };
-  const char *fs_texture_sources[2] = { version, fs_texture_source };
+  const char *vs_texture_source[1];
+  const char *fs_texture_source[1];
   // GLSL version
   const char *error_message;
   GLint k;
@@ -148,8 +180,25 @@ image_init (Image * image)      ///< Image struct.
   fflush (stdout);
 #endif
 
+  // Select shaders
+  if (strstr ((const char *) glGetString (GL_VERSION), "OpenGL ES"))
+    {
+      fs_texture_source[0] = fs_texture_source_es;
+      vs_texture_source[0] = vs_texture_source_es;
+    }
+  else if (epoxy_gl_version () >= 33)
+    {
+      fs_texture_source[0] = fs_texture_source_v3;
+      vs_texture_source[0] = vs_texture_source_v3;
+    }
+  else
+    {
+      fs_texture_source[0] = fs_texture_source_v2;
+      vs_texture_source[0] = vs_texture_source_v2;
+    }
+
   fs = glCreateShader (GL_FRAGMENT_SHADER);
-  glShaderSource (fs, 2, fs_texture_sources, NULL);
+  glShaderSource (fs, 1, fs_texture_source, NULL);
   glCompileShader (fs);
   glGetShaderiv (fs, GL_COMPILE_STATUS, &k);
   if (!k)
@@ -159,7 +208,7 @@ image_init (Image * image)      ///< Image struct.
     }
 
   vs = glCreateShader (GL_VERTEX_SHADER);
-  glShaderSource (vs, 2, vs_texture_sources, NULL);
+  glShaderSource (vs, 1, vs_texture_source, NULL);
   glCompileShader (vs);
   glGetShaderiv (vs, GL_COMPILE_STATUS, &k);
   if (!k)

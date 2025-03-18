@@ -3,7 +3,7 @@
  * \brief Source file with functions and variables to draw a triangle with
  *   OpenGL and GTK.
  * \author Javier Burguete Tolosa.
- * \date 2022-2023.
+ * \date 2022-2025.
  * \license BSD-2-Clause.
  */
 
@@ -30,7 +30,7 @@
  */
 #include <stdio.h>
 #include <glib.h>
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 #include <gtk/gtk.h>
 #include "config.h"
 #include "draw.h"
@@ -88,6 +88,26 @@ glarea_realize ()
 }
 
 /**
+ * GTK unrealize function.
+ */
+static void
+glarea_unrealize ()
+{
+
+#if DEBUG
+  fprintf (stderr, "glarea_unrealize: start\n");
+#endif
+
+  gtk_gl_area_make_current (gtk_draw);
+  draw_free ();
+
+#if DEBUG
+  fprintf (stderr, "glarea_unrealize: end\n");
+#endif
+
+}
+
+/**
  * Main function.
  *
  * \return exit status.
@@ -112,6 +132,7 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
   g_signal_connect (gtk_draw, "realize", (GCallback) glarea_realize, NULL);
   g_signal_connect (gtk_draw, "resize", (GCallback) glarea_resize, NULL);
   g_signal_connect (gtk_draw, "render", (GCallback) draw_render, NULL);
+  g_signal_connect (gtk_draw, "unrealize", (GCallback) glarea_unrealize, NULL);
   gtk_window_present (gtk_window);
 #else
   gtk_init (&argn, &argc);
@@ -126,10 +147,10 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
   g_signal_connect (gtk_draw, "realize", (GCallback) glarea_realize, NULL);
   g_signal_connect (gtk_draw, "resize", (GCallback) glarea_resize, NULL);
   g_signal_connect (gtk_draw, "render", (GCallback) draw_render, NULL);
+  g_signal_connect (gtk_draw, "unrealize", (GCallback) glarea_unrealize, NULL);
   gtk_widget_show_all (GTK_WIDGET (gtk_window));
 #endif
   g_main_loop_run (main_loop);
-  draw_free ();
   g_main_loop_unref (main_loop);
   return 0;
 }

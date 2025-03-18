@@ -12,8 +12,8 @@ aclocal
 autoconf
 automake --add-missing
 ./configure
-for i in demo0 demo1 demo2 demo3; do
+for i in demo0 demo1 demo2; do
 	pushd $i
-	${MAKE}
+	${MAKE} $1
 	popd
 done

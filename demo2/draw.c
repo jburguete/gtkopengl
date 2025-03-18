@@ -1,9 +1,40 @@
+/**
+ * \file draw.c
+ * \brief Source file with functions and variables for initializing, rendering,
+ *   and freeing related resources to draw a triangle with OpenGL.
+ * \author Javier Burguete Tolosa.
+ * \date 2022-2025.
+ * \license BSD-2-Clause.
+ */
+
+/*
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
 #include <stdio.h>
+#include <string.h>
 #include <glib.h>
 #include <png.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 
 #include "image.h"
 #include "text.h"
@@ -32,11 +63,26 @@ const char *fragment_shader_source_v2[NFRAGMENT_V2] = {
   "void main(){gl_FragColor=vec4(color,0.);}"
 };
 
-#define NVERTEX_V2 5
+#define NVERTEX_V2 4
 const char *vertex_shader_source_v2[NVERTEX_V2] = {
   "#version 120\n",
-  "#define in attribute\n",
-  "in vec3 vertex;",
+  "attribute vec3 vertex;",
+  "uniform mat4 matrix;",
+  "void main(){gl_Position=matrix*vec4(vertex,1.);}"
+};
+
+#define NFRAGMENT_ES 4
+const char *fragment_shader_source_es[NFRAGMENT_ES] = {
+  "#version 100\n",
+  "precision mediump float;",
+  "uniform vec3 color;",
+  "void main(){gl_FragColor=vec4(color,0.);}"
+};
+
+#define NVERTEX_ES 4
+const char *vertex_shader_source_es[NVERTEX_ES] = {
+  "#version 100\n",
+  "attribute vec3 vertex;",
   "uniform mat4 matrix;",
   "void main(){gl_Position=matrix*vec4(vertex,1.);}"
 };
@@ -88,20 +134,11 @@ draw_init ()
   const char *error_message;
   GLint result;
   GLuint nfragment, nvertex;
-  GLenum glew_status;
+  const GLubyte *version;
 
-  // Initing GLEW library
-  glew_status = glewInit ();
-  if (glew_status != GLEW_OK)
-    {
-      error_message = (const char *) glewGetErrorString (glew_status);
-      goto exit_on_error;
-    }
-  if (!glewIsSupported ("GL_VERSION_3_0"))
-    {
-      error_message = "OpenGL 3.0 is not supported";
-      goto exit_on_error;
-    }
+  // OpenGL version
+  version = glGetString (GL_VERSION);
+  printf ("OpenGL=%s\n", version);
 
   // Opening logo
   logo = image_new ("logo.png");
@@ -112,7 +149,14 @@ draw_init ()
     }
 
   // Select shaders
-  if (GLEW_VERSION_3_0)
+  if (strstr ((const char *) version, "OpenGL ES"))
+    {
+      nfragment = NFRAGMENT_ES;
+      fragment_shader_source = fragment_shader_source_es;
+      nvertex = NVERTEX_ES;
+      vertex_shader_source = vertex_shader_source_es;
+    }
+  else if (epoxy_gl_version () >= 33)
     {
       nfragment = NFRAGMENT_V3;
       fragment_shader_source = fragment_shader_source_v3;
@@ -255,6 +299,9 @@ draw_render ()
   // Draw the text
   text_draw (text, "Prueba", 0.6, -0.1, 0.01, 0.01, blew);
   glDisable (GL_BLEND);
+
+  // Swap buffers
+  glFlush ();
 }
 
 // Free draw

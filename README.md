@@ -60,20 +60,20 @@ You can install all required utilities and libraries using the instructions of
 This software has been built and tested in the following operative systems:
 * Arch Linux
 * Debian 12 (Linux)
-* Devuan Linux 4
+* Devuan Linux 5
 * Dragonfly BSD 6.4.0
-* Fedora Linux 38
-* FreeBSD 13.2
+* Fedora Linux 40
+* FreeBSD 14.1
 * Gentoo Linux
-* Linux Mint DE 5
+* Linux Mint DE 6
 * MacOS Ventura + Homebrew
 * Manjaro Linux
-* Microsoft Windows 10 + MSYS2
-* NetBSD 9.3
+* Microsoft Windows 11 + MSYS2
+* NetBSD 10.0
 * OpenBSD 7.6
 * OpenInidiana Hipster
 * OpenSUSE Linux 15.5
-* Ubuntu Linux 23.04
+* Ubuntu Linux 
 
 On Microsoft Windows systems you have to install
 [MSYS2](http://sourceforge.net/projects/msys2) and the required
@@ -81,7 +81,7 @@ libraries and utilities. You can follow detailed instructions in
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
 tutorial.
 
-On NetBSD 9.3, to use the last GCC version, you have to do first on the
+On NetBSD 10.0, to use the last GCC version, you have to do first on the
 building terminal:
 > $ export PATH="/usr/pkg/gcc9/bin:$PATH"
 

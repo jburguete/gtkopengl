@@ -3,7 +3,7 @@
  * \brief Source file with functions and variables to draw a triangle with
  *   OpenGL and GLFW.
  * \author Javier Burguete Tolosa.
- * \date 2022-2023.
+ * \date 2022-2025.
  * \license BSD-2-Clause.
  */
 
@@ -30,7 +30,7 @@
  */
 #include <stdio.h>
 #include <glib.h>
-#include <GL/glew.h>
+#include <epoxy/gl.h>
 #include <GLFW/glfw3.h>
 #include <gtk/gtk.h>
 #include "config.h"
@@ -60,6 +60,7 @@ glfw_render ()
   fprintf (stderr, "glfw_render: start\n");
 #endif
 
+  glfwMakeContextCurrent (glfw_window);
   draw_render ();
   glfwSwapBuffers (glfw_window);
 
@@ -119,7 +120,6 @@ glfw_init ()
     }
   glfwSetWindowSizeLimits (glfw_window, MINIMUM_WIDTH, MINIMUM_HEIGHT,
                            GLFW_DONT_CARE, GLFW_DONT_CARE);
-  glfwMakeContextCurrent (glfw_window);
   glfwSetFramebufferSizeCallback (glfw_window, glfw_resize);
   glfwSetWindowRefreshCallback (glfw_window, glfw_render);
   glViewport (0, 0, window_width, window_height);
@@ -159,7 +159,7 @@ glfw_loop ()
         gdk_gl_context_make_current (gl_context);
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
-      glfwMakeContextCurrent (glfw_window);
+      glfw_render ();
       glfwPollEvents ();
     }
   while (!glfwWindowShouldClose (glfw_window));

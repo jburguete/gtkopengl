@@ -3,7 +3,7 @@
  * \brief Source file with functions and variables for initializing, rendering,
  *   and freeing related resources to draw a triangle with OpenGL.
  * \author Javier Burguete Tolosa.
- * \date 2022-2023.
+ * \date 2022-2025.
  * \license BSD-2-Clause.
  */
 
@@ -29,7 +29,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 #include <stdio.h>
-#include <GL/glew.h>
+#include <string.h>
+#include <epoxy/gl.h>
 #include "config.h"
 #include "draw.h"
 
@@ -59,35 +60,46 @@ int
 draw_init ()
 {
   const GLchar *gl_version = "#version 130\n";
+  const GLchar *gl_version_es = "#version 100\n";
   const GLchar *fs_source =
-    "uniform vec3 color;" "void main()" "{" "gl_FragColor=vec4(color,1.f);" "}";
+    "uniform vec3 color;" "void main(){gl_FragColor=vec4(color,1.f);}";
+  const GLchar *fs_source_es =
+    "precision mediump float;"
+    "uniform vec3 color;" "void main(){gl_FragColor=vec4(color,1.f);}";
   const GLchar *vs_source =
     "in vec2 position;"
-    "void main()" "{" "gl_Position=vec4(position,0.f,1.f);" "}";
+    "void main(){gl_Position=vec4(position,0.f,1.f);}";
+  const GLchar *vs_source_es =
+    "attribute vec2 position;"
+    "void main(){gl_Position=vec4(position,0.f,1.f);}";
   const GLchar *position_name = "position";
   const GLchar *color_name = "color";
-  const GLchar *fs_sources[2] = { gl_version, fs_source };
-  const GLchar *vs_sources[2] = { gl_version, vs_source };
+  const GLchar *fs_sources[2], *vs_sources[2];
+  const GLubyte *version;
   const char *error_msg;
   GLint error_code;
   GLuint fs, vs;
-  GLenum glew_status;
 
 #if DEBUG
   fprintf (stderr, "draw_init: start\n");
 #endif
 
-  // Initing GLEW library
-  glew_status = glewInit ();
-  if (glew_status != GLEW_OK)
+  // OpenGL version
+  version = glGetString (GL_VERSION);
+  printf ("OpenGL=%s\n", version);
+  if (strstr ((const char *) version, "OpenGL ES"))
     {
-      error_msg = (const char *) glewGetErrorString (glew_status);
-      goto end;
+      fs_sources[0] = gl_version_es;
+      fs_sources[1] = fs_source_es;
+      vs_sources[0] = gl_version_es;
+      vs_sources[1] = vs_source_es;
     }
-  if (!glewIsSupported ("GL_VERSION_3_0"))
+  else
     {
-      error_msg = "OpenGL 3.0 is not supported";
-      goto end;
+      fs_sources[0] = gl_version;
+      fs_sources[1] = fs_source;
+      vs_sources[0] = gl_version;
+      vs_sources[1] = vs_source;
     }
 
   // Compiling the fragment shader
@@ -194,6 +206,9 @@ draw_render ()
   glVertexAttribPointer (in_position, 2, GL_FLOAT, GL_FALSE, 0, NULL);
   glDrawArrays (GL_TRIANGLES, 0, 3);
   glDisableVertexAttribArray (in_position);
+
+  // Swap buffers
+  glFlush ();
 
 #if DEBUG
   fprintf (stderr, "draw_render: end\n");
