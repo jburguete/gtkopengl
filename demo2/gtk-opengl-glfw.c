@@ -57,7 +57,7 @@ GLFWwindow *glfw_window = NULL; ///< GLFW window.
  * GLFW render function.
  */
 static void
-glfw_render ()
+glfw_render (GLFWwindow *window)        ///< GLFW window.
 {
 
 #if DEBUG
@@ -65,7 +65,7 @@ glfw_render ()
 #endif
 
   draw_render ();
-  glfwSwapBuffers (glfw_window);
+  glfwSwapBuffers (window);
 
 #if DEBUG
   fprintf (stderr, "glfw_render: end\n");
