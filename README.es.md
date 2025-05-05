@@ -62,26 +62,26 @@ operativos:
 * Arch Linux
 * Debian 12 (Linux)
 * Devuan Linux 5
-* Dragonfly BSD 6.4.0
-* Fedora Linux 40
-* FreeBSD 14.1
+* Dragonfly BSD 6.4.1
+* Fedora Linux 42
+* FreeBSD 14.2
 * Gentoo Linux
 * Linux Mint DE 6
 * MacOS Ventura + Homebrew
 * Manjaro Linux
 * Microsoft Windows 11 + MSYS2
-* NetBSD 10.0
-* OpenBSD 7.6
+* NetBSD 10.1
+* OpenBSD 7.7
 * OpenInidiana Hipster
-* OpenSUSE Linux 15.5
-* Ubuntu Linux 
+* OpenSUSE Linux 15.6
+* Ubuntu Linux 25.04
 
 En sistemas Microsoft Windows hay que instalar
 [MSYS2](http://sourceforge.net/projects/msys2) además de las bibliotecas y
 utilidades requeridas. Puede seguir instrucciones detalladas en el tutorial
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf).
 
-En NetBSD 10.0, para usar la última versión del compilador GCC, hay que hacer
+En NetBSD 10.1, para usar la última versión del compilador GCC, hay que hacer
 primero en el terminal:
 > $ export PATH="/usr/pkg/gcc9/bin:$PATH"
 
@@ -89,7 +89,7 @@ Si se quiere hacer permanente tambien se puede añadir en el fichero ".profile"
 de la carpeta raíz del usuario la línea:
 > PATH="/usr/pkg/gcc9/bin:$PATH"
 
-En OpenBSD 7.6 hay que hacer antes en el terminal:
+En OpenBSD 7.7 hay que hacer antes en el terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 BUILDING INSTRUCTIONS

@@ -61,19 +61,19 @@ This software has been built and tested in the following operative systems:
 * Arch Linux
 * Debian 12 (Linux)
 * Devuan Linux 5
-* Dragonfly BSD 6.4.0
-* Fedora Linux 40
-* FreeBSD 14.1
+* Dragonfly BSD 6.4.1
+* Fedora Linux 42
+* FreeBSD 14.2
 * Gentoo Linux
 * Linux Mint DE 6
 * MacOS Ventura + Homebrew
 * Manjaro Linux
 * Microsoft Windows 11 + MSYS2
-* NetBSD 10.0
-* OpenBSD 7.6
+* NetBSD 10.1
+* OpenBSD 7.7
 * OpenInidiana Hipster
-* OpenSUSE Linux 15.5
-* Ubuntu Linux 
+* OpenSUSE Linux 15.6
+* Ubuntu Linux 25.04
 
 On Microsoft Windows systems you have to install
 [MSYS2](http://sourceforge.net/projects/msys2) and the required
@@ -81,7 +81,7 @@ libraries and utilities. You can follow detailed instructions in
 [install-unix](https://github.com/jburguete/install-unix/blob/master/tutorial.pdf)
 tutorial.
 
-On NetBSD 10.0, to use the last GCC version, you have to do first on the
+On NetBSD 10.1, to use the last GCC version, you have to do first on the
 building terminal:
 > $ export PATH="/usr/pkg/gcc9/bin:$PATH"
 
@@ -89,7 +89,7 @@ To do permanent this change the following line can be added to the ".profile"
 file in the user root directory:
 > PATH="/usr/pkg/gcc9/bin:$PATH"
 
-On OpenBSD 7.6 you have to do first on the building terminal:
+On OpenBSD 7.7 you have to do first on the building terminal:
 > $ export AUTOCONF\_VERSION=2.69 AUTOMAKE\_VERSION=1.16
 
 BUILDING INSTRUCTIONS
