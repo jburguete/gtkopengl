@@ -1,0 +1,18 @@
+FreeGLUT
+
+* No detected issues
+
+GLFW
+
+*demo[0,1,2]: resizing very slow
+
+SDL
+
+*demo[0,1,2]: sometimes resizing with too low sizes is enabled
+*demo[1,2]: no rendering with GTK4
+
+GtkGLArea
+
+*demo2: sometimes no refresh draw when resizing
+*demo2: bad text rendering
+*demo2: bad rendering with GTK4

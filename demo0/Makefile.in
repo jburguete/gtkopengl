@@ -1,0 +1,60 @@
+.PHONY: strip clean
+
+ifeq (@gtk4@, 1)
+ifeq (@glfw@, 1)
+GLFW4 = gtk4-opengl-glfw
+endif
+ifeq (@sdl@, 1)
+SDL4 = gtk4-opengl-sdl
+endif
+GTK4 = gtk4-opengl-glarea
+endif
+ifeq (@glfw@, 1)
+GLFW3 = gtk3-opengl-glfw
+endif
+ifeq (@sdl@, 1)
+SDL3 = gtk3-opengl-sdl
+endif
+GTK3 = gtk3-opengl-glarea
+
+FLAGS = @CFLAGS@ -Os -Wall -Wextra
+CFLAGS2 = @EPOXY_CFLAGS@ @GLFW_CFLAGS@ $(FLAGS)
+LDFLAGS2 = @GLFW_LIBS@ @EPOXY_LIBS@ @LIBS@ @LDFLAGS@
+CFLAGS3 = @EPOXY_CFLAGS@ @SDL_CFLAGS@ $(FLAGS)
+LDFLAGS3 = @SDL_LIBS@ @EPOXY_LIBS@ @LIBS@ @LDFLAGS@
+CFLAGS4 = @GLIB_CFLAGS@ @EPOXY_CFLAGS@ $(FLAGS)
+LDFLAGS4 = @EPOXY_LIBS@ @GLIB_LIBS@ @LIBS@ @LDFLAGS@
+CC = @CC@ -g -flto
+SRC = draw.c
+HDR = draw.h config.h
+ALL = $(GLFW3) $(SDL3) $(GTK3) $(GLFW4) $(SDL4) $(GTK4)
+
+all: $(ALL)
+	echo $(ALL)
+
+$(GLFW3): gtk-opengl-glfw.c $(SRC) $(HDR) Makefile
+	$(CC) $(CFLAGS2) gtk-opengl-glfw.c $(SRC) -o $(GLFW3) $(LDFLAGS2)
+
+$(SDL3): gtk-opengl-sdl.c $(SRC) $(HDR) Makefile
+	$(CC) $(CFLAGS3) gtk-opengl-sdl.c $(SRC) -o $(SDL3) $(LDFLAGS3)
+
+$(GTK3): gtk-opengl-glarea.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK3_CFLAGS@ $(CFLAGS4) gtk-opengl-glarea.c $(SRC) \
+		-o $(GTK3) @GTK3_LIBS@ $(LDFLAGS4)
+
+$(GLFW4): $(GLFW3)
+	ln -sf $(GLFW3) $(GLFW4)
+
+$(SDL4): $(SDL3)
+	ln -sf $(SDL3) $(SDL4)
+
+$(GTK4): gtk-opengl-glarea.c $(SRC) $(HDR) Makefile
+	$(CC) @GTK4_CFLAGS@ $(CFLAGS4) gtk-opengl-glarea.c $(SRC) \
+		-o $(GTK4) @GTK4_LIBS@ $(LDFLAGS4)
+
+strip:
+	make
+	strip $(ALL)
+
+clean:
+	rm $(ALL)
