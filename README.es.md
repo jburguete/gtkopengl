@@ -59,6 +59,7 @@ instrucciones de [install-unix](https://github.com/jburguete/install-unix).
 
 Este programa ha sido construido y probado en los siguientes sistemas
 operativos:
+* Alpine Linux
 * Arch Linux
 * Debian 12 (Linux)
 * Devuan Linux 5

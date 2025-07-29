@@ -58,6 +58,7 @@ You can install all required utilities and libraries using the instructions of
 [install-unix](https://github.com/jburguete/install-unix).
 
 This software has been built and tested in the following operative systems:
+* Alpine Linux
 * Arch Linux
 * Debian 12 (Linux)
 * Devuan Linux 5
