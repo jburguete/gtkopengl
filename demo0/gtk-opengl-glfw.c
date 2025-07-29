@@ -41,7 +41,7 @@ GLFWwindow *glfw_window = NULL;
  * GLFW render function.
  */
 static void
-glfw_render ()
+glfw_render (GLFWwindow *window)        ///< window.
 {
 
 #if DEBUG
@@ -49,7 +49,7 @@ glfw_render ()
 #endif
 
   draw_render ();
-  glfwSwapBuffers (glfw_window);
+  glfwSwapBuffers (window);
 
 #if DEBUG
   fprintf (stderr, "glfw_render: end\n");
@@ -142,7 +142,7 @@ glfw_loop ()
   while (!glfwWindowShouldClose (glfw_window))
     {
       glfwPollEvents ();
-      glfw_render ();
+      glfw_render (glfw_window);
     }
 
 #if DEBUG

@@ -57,15 +57,16 @@ GLFWwindow *glfw_window = NULL; ///< GLFW window.
  * GLFW render function.
  */
 static void
-glfw_render ()
+glfw_render (GLFWwindow *window)        ///< window.
 {
 
 #if DEBUG
   fprintf (stderr, "glfw_render: start\n");
 #endif
 
+  glfwMakeContextCurrent (window);
   draw_render ();
-  glfwSwapBuffers (glfw_window);
+  glfwSwapBuffers (window);
 
 #if DEBUG
   fprintf (stderr, "glfw_render: end\n");
@@ -164,6 +165,7 @@ glfw_loop ()
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
       glfwMakeContextCurrent (glfw_window);
+      glfw_render (glfw_window);
       glfwPollEvents ();
     }
   while (!glfwWindowShouldClose (glfw_window));

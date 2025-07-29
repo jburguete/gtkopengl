@@ -53,16 +53,16 @@ GLFWwindow *glfw_window = NULL;
  * GLFW render function.
  */
 static void
-glfw_render ()
+glfw_render (GLFWwindow *window)        ///< window.
 {
 
 #if DEBUG
   fprintf (stderr, "glfw_render: start\n");
 #endif
 
-  glfwMakeContextCurrent (glfw_window);
+  glfwMakeContextCurrent (window);
   draw_render ();
-  glfwSwapBuffers (glfw_window);
+  glfwSwapBuffers (window);
 
 #if DEBUG
   fprintf (stderr, "glfw_render: end\n");
@@ -159,7 +159,7 @@ glfw_loop ()
         gdk_gl_context_make_current (gl_context);
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
-      glfw_render ();
+      glfw_render (glfw_window);
       glfwPollEvents ();
     }
   while (!glfwWindowShouldClose (glfw_window));
