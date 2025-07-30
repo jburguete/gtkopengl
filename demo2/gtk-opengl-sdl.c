@@ -65,6 +65,7 @@ sdl_render ()
   fprintf (stderr, "sdl_render: start\n");
 #endif
 
+  SDL_GL_MakeCurrent (sdl_window, sdl_context);
   draw_render ();
   SDL_GL_SwapWindow (sdl_window);
 
@@ -176,15 +177,12 @@ sdl_loop ()
 #endif
 
   context = g_main_context_default ();
-  sdl_render ();
   while (1)
     {
       if (gl_context)
         gdk_gl_context_make_current (gl_context);
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
-      SDL_RaiseWindow (sdl_window);
-      SDL_GL_MakeCurrent (sdl_window, sdl_context);
       while (SDL_PollEvent (event))
         {
           switch (event->type)
@@ -291,6 +289,8 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
   gtk_widget_show_all (GTK_WIDGET (gtk_window));
 #endif
   gl_context = gdk_gl_context_get_current ();
+  if (!gl_context)
+    printf ("GdkGLContext: NULL\n");
   g_signal_connect (gtk_window, "destroy", sdl_loop_quit, NULL);
 
   // Main loop

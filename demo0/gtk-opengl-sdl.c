@@ -34,10 +34,8 @@
 #include "config.h"
 #include "draw.h"
 
-SDL_Window *sdl_window = NULL;
-///< SDL window.
-SDL_GLContext sdl_context = NULL;
-///< SDL OpenGL context.
+SDL_Window *sdl_window = NULL;  ///< SDL window.
+SDL_GLContext sdl_context = NULL;       ///< SDL OpenGL context.
 
 /**
  * SDL render function.
@@ -50,6 +48,7 @@ sdl_render ()
   fprintf (stderr, "sdl_render: start\n");
 #endif
 
+  SDL_GL_MakeCurrent (sdl_window, sdl_context);
   draw_render ();
   SDL_GL_SwapWindow (sdl_window);
 
@@ -158,10 +157,8 @@ sdl_loop ()
   fprintf (stderr, "sdl_loop: start\n");
 #endif
 
-  sdl_render ();
   while (1)
     {
-      SDL_GL_MakeCurrent (sdl_window, sdl_context);
       while (SDL_PollEvent (event))
         {
           switch (event->type)
@@ -220,11 +217,17 @@ main (int argn __attribute__((unused)), ///< number of command-line arguments.
       char **argc __attribute__((unused)))
   ///< array of command-line arguments.
 {
+
+  // Render window
   if (!sdl_init ())
     return 4;
   if (!draw_init ())
     return 3;
+
+  // Main loop
   sdl_loop ();
+
+  // Free resources
   sdl_free ();
   return 0;
 }
