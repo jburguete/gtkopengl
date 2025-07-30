@@ -158,17 +158,15 @@ glfw_loop ()
 #endif
 
   context = g_main_context_default ();
-  do
+  while (!glfwWindowShouldClose (glfw_window))
     {
       if (gl_context)
         gdk_gl_context_make_current (gl_context);
       while (g_main_context_pending (context))
         g_main_context_iteration (context, 0);
-      glfwMakeContextCurrent (glfw_window);
-      glfw_render (glfw_window);
       glfwPollEvents ();
+      glfw_render (glfw_window);
     }
-  while (!glfwWindowShouldClose (glfw_window));
 
 #if DEBUG
   fprintf (stderr, "glfw_loop: end\n");

@@ -34,8 +34,7 @@
 #include "config.h"
 #include "draw.h"
 
-GLFWwindow *glfw_window = NULL;
-///< GLFW window.
+GLFWwindow *glfw_window = NULL; ///< GLFW window.
 
 /**
  * GLFW render function.
@@ -48,6 +47,7 @@ glfw_render (GLFWwindow *window)        ///< window.
   fprintf (stderr, "glfw_render: start\n");
 #endif
 
+  glfwMakeContextCurrent (window);
   draw_render ();
   glfwSwapBuffers (window);
 
@@ -180,11 +180,17 @@ glfw_free ()
 int
 main ()
 {
+
+  // Render window
   if (!glfw_init ())
     return 4;
   if (!draw_init ())
     return 3;
+
+  // Main loop
   glfw_loop ();
+
+  // Free resources
   glfw_free ();
   return 0;
 }
